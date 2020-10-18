@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace shlidexperience.Helpers
+namespace Common.Helpers
 {
     public class JwtTokenHelper
     {

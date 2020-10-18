@@ -4,6 +4,6 @@
     {
         public string ClientUrl { get; set; }
         public string JwtKey { get; set; }
-        public string JwtIssuer { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

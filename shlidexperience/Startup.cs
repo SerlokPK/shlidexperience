@@ -6,10 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Repositories.Data;
 using shlidexperience.helpers;
 using shlidexperience.Helpers;
 using System.Collections.Generic;
 using WebApi.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace shlidexperience
 {
@@ -29,7 +31,9 @@ namespace shlidexperience
             services.AddOptions()
                     .AddHttpClient()
                     .Configure<AppSettings>(Configuration.GetSection("AppSettings"))
-                    .RegisterAppServices();
+                    .RegisterAppServices()
+                    .AddDbContext<ShlidexperienceContext>(options => 
+                                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             var config = Configuration.GetSection("AppSettings");
             services.AddSwaggerGen(s =>

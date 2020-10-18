@@ -1,23 +1,26 @@
 ﻿using Common;
-using DomainModels.Users;
+using DtoModels.Account.Request;
+using Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using shlidexperience.Helpers;
 
 namespace shlidexperience.Controllers
 {
     [Route("api/account")]
     public class AccountController : BaseController
     {
-        public AccountController(IOptions<AppSettings> options) : base(options)
+        private readonly IAccountService _accountService;
+        public AccountController(IOptions<AppSettings> options, IAccountService accountService) : base(options)
         {
+            _accountService = accountService;
         }
 
-        [HttpGet("login")]
-        public IActionResult Login()
+        [HttpPost("login")]
+        public IActionResult Login(LoginDto model)
         {
-            var token = JwtTokenHelper.GenerateJSONWebToken(new User { Email = "test", UserId = 1 }, _appSettings.JwtKey);
-            return Ok(token);
+            var userAuth = _accountService.Login(model.Email, model.Password);
+            
+            return Ok(userAuth);
         }
 
         [HttpGet]

@@ -1,6 +1,6 @@
-﻿namespace DomainModels.Users
+﻿namespace DtoModels.User.Response
 {
-    public class User
+    public class UserDto
     {
         public int UserId { get; set; }
         public string FullName { get; set; }
