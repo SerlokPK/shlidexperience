@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using shlidexperience.helpers;
+using shlidexperience.Helpers;
 using System.Collections.Generic;
 using WebApi.Helpers;
 
@@ -74,13 +76,16 @@ namespace shlidexperience
             {
                 app.UseDeveloperExceptionPage();
             }
+            var loggerFactory = app.ApplicationServices.GetRequiredService<ILoggerFactory>();
+            var logger = loggerFactory.CreateLogger<Startup>();
 
             app.UseSwagger();
             app.UseSwaggerUI(s =>
             {
                 s.SwaggerEndpoint(url: "/swagger/v1/swagger.json", "Shlidexpirience");
             });
-            // TODO setup logger
+
+            app.RegisterExceptionHandling(logger);
             app.UseHttpsRedirection()
                .UseCors(RegisterAppCorsHelper.AppCorsPolicyName)
                .UseRouting()
