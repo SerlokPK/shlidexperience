@@ -1,13 +1,13 @@
 using Common;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using shlidexperience.helpers;
-using System.Text;
+using System.Collections.Generic;
+using WebApi.Helpers;
 
 namespace shlidexperience
 {
@@ -32,22 +32,36 @@ namespace shlidexperience
             var config = Configuration.GetSection("AppSettings");
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc(name: "v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Shlidexpirience", Version = "v1" });
-            });
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
+                s.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "Shlidexpirience", Version = "v1" });
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
                     {
-                        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                      new OpenApiSecurityScheme
+                      {
+                        Reference = new OpenApiReference
                         {
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
-                            ValidateLifetime = true,
-                            ValidateIssuerSigningKey = true,
-                            ValidIssuer = config.GetValue<string>("JwtIssuer"),
-                            ValidAudience = config.GetValue<string>("JwtIssuer"),
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetValue<string>("JwtKey")))
-                        };
-                    });
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                          Scheme = "oauth2",
+                          Name = "Bearer",
+                          In = ParameterLocation.Header,
+
+                      },
+                      new List<string>()
+                    }
+                });
+            });
 
             var clientUrl = config.GetValue<string>("ClientUrl");
             services.RegisterAppCors(clientUrl);
@@ -64,13 +78,14 @@ namespace shlidexperience
             app.UseSwagger();
             app.UseSwaggerUI(s =>
             {
-                s.SwaggerEndpoint(url: "/swagger/v1/swagger.jsoin", "Shlidexpirience");
+                s.SwaggerEndpoint(url: "/swagger/v1/swagger.json", "Shlidexpirience");
             });
             // TODO setup logger
             app.UseHttpsRedirection()
                .UseCors(RegisterAppCorsHelper.AppCorsPolicyName)
                .UseRouting()
                .UseAuthorization()
+               .UseMiddleware<JwtMiddleware>()
                .UseEndpoints(endpoints =>
                {
                    endpoints.MapControllers();
