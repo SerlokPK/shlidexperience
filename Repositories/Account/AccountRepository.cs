@@ -1,8 +1,11 @@
 ﻿using Common;
 using Common.Helpers;
+using DomainModels.Exceptions;
 using DomainModels.Users;
 using Interfaces.Repositories;
 using Microsoft.Extensions.Options;
+using Repositories.Constants;
+using Repositories.Helpers;
 using System;
 using System.Linq;
 
@@ -17,15 +20,10 @@ namespace Repositories.Account
         {
             using (var context = GetContext())
             {
-                if (string.IsNullOrEmpty(password))
-                {
-                    return null;
-                }
-
                 var user = context.Users.SingleOrDefault(x => x.Email == email);
                 if (user == null)
                 {
-                    return null;
+                    throw new UnauthorizedException("Invalid email or username");
                 }
 
                 if (user.Status != UserStatus.Active.Status)
@@ -40,7 +38,7 @@ namespace Repositories.Account
                 var shaPassword = HashHelper.Hash(user.PasswordSalt + password);
                 if (!shaPassword.SequenceEqual(user.Password.ToArray()))
                 {
-                    return null;
+                    throw new UnauthorizedException("Invalid email or username");
                 }
 
                 var userAuth = new User
@@ -56,6 +54,42 @@ namespace Repositories.Account
                 context.SaveChanges();
 
                 return userAuth;
+            }
+        }
+
+        public User Register(string email, string username, string password)
+        {
+            using (var context = GetContext())
+            {
+                if (context.Users.Any(u => u.Email == email))
+                {
+                    return null;
+                }
+
+                var saltPassword = PasswordHelper.GenerateRandomPassword(PasswordConstants.UniqueKeyLength, false, false);
+                var shaPassword = HashHelper.Hash(saltPassword + password);
+
+                var newUser = new Data.User
+                {
+                    Password = shaPassword,
+                    PasswordSalt = saltPassword,
+                    Created = DateTime.Now,
+                    Status = UserStatus.Active.Status,
+                    UserKey = UuidHelper.GenerateUniqueKey(PasswordConstants.UniqueKeyLength),
+                    Email = email,
+                };
+
+                var userId = context.Users.Add(newUser).Entity.UserId;
+                context.SaveChanges();
+
+                return new User
+                {
+                    UserId = userId,
+                    UserKey = newUser.UserKey,
+                    Email = newUser.Email,
+                    FullName = $"{newUser.FirstName} {newUser.LastName}",
+                    Status = newUser.Status
+                };
             }
         }
     }

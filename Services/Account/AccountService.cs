@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Common;
 using Common.Helpers;
-using DomainModels.Exceptions;
 using DomainModels.Users;
 using DtoModels.Account.Response;
 using DtoModels.User.Response;
@@ -26,24 +25,30 @@ namespace Services.Account
         public UserAuthDto Login(string email, string password)
         {
             var user = _accountsRepository.Login(email, password);
+            var userAuth = new UserAuthDto
+            {
+                User = _mapper.Map<UserDto>(user)
+            };
             if (user?.Status == UserStatus.Active.Status)
             {
-                var token = JwtTokenHelper.GenerateJSONWebToken(user, _appSettings.JwtKey);
-                var userDto = _mapper.Map<UserDto>(user);
-
-                return new UserAuthDto
-                {
-                    User = userDto,
-                    Token = token
-                };
+                userAuth.Token = JwtTokenHelper.GenerateJSONWebToken(user, _appSettings.JwtKey);
             }
-            
-            throw new UnauthorizedException("Invalid email or username");
+
+            return userAuth;
         }
 
-        public UserDto Register(string email, string username, string password, string confirmPassword)
+        public UserDto Register(string email, string username, string password)
         {
-            throw new System.NotImplementedException();
+            var registeredUser = _accountsRepository.Register(email, username, password);
+            if (registeredUser != null)
+            {
+                var link = $"{_appSettings.WebsiteUrl}/account/activate/{registeredUser.UserKey}";
+                //_mailService.RegisteredUserSendMail(languageSign, email, username, link);
+
+                return _mapper.Map<UserDto>(registeredUser);
+            }
+
+            return null;
         }
     }
 }

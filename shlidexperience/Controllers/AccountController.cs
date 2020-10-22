@@ -25,13 +25,13 @@ namespace shlidexperience.Controllers
             return Ok(userAuth);
         }
 
-        //[HttpPost]
-        //[Route("register")]
-        //public IActionResult Register(RegistrationModel model)
-        //{
-        //    var user = _accountsService.Register(model.Email, model.Username, model.Password, model.ConfirmPassword);
+        [HttpPost]
+        [Route("register")]
+        public IActionResult Register(RegisterDto model)
+        {
+            var user = _accountService.Register(model.Email, model.Username, model.Password);
 
-        //    return Created(new Uri(Request.GetDisplayUrl()), user);
-        //}
+            return Created(new Uri(Request.GetDisplayUrl()), user);
+        }
     }
 }
