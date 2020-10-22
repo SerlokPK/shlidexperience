@@ -32,6 +32,7 @@ namespace shlidexperience
                     .AddHttpClient()
                     .Configure<AppSettings>(Configuration.GetSection("AppSettings"))
                     .RegisterAppServices()
+                    .RegisterAppRepositories()
                     .AddDbContext<ShlidexperienceContext>(options => 
                                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
