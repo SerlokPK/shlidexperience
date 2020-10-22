@@ -1,8 +1,10 @@
 ﻿using Common;
 using DtoModels.Account.Request;
 using Interfaces.Services;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace shlidexperience.Controllers
 {
@@ -23,11 +25,13 @@ namespace shlidexperience.Controllers
             return Ok(userAuth);
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult Get()
-        {
-            return Ok("Moze");
-        }
+        //[HttpPost]
+        //[Route("register")]
+        //public IActionResult Register(RegistrationModel model)
+        //{
+        //    var user = _accountsService.Register(model.Email, model.Username, model.Password, model.ConfirmPassword);
+
+        //    return Created(new Uri(Request.GetDisplayUrl()), user);
+        //}
     }
 }

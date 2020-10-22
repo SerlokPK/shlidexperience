@@ -21,16 +21,14 @@ namespace shlidexperience.Helpers
                     var error = context.Features.Get<IExceptionHandlerFeature>();
                     if (error != null)
                     {
-                        var statusCode = 500;
                         var ex = error.Error;
                         if (ex is BaseException be)
                         {
-                            statusCode = be.StatusCode;
+                            context.Response.StatusCode = be.StatusCode;
                         }
                         logger.LogError(ex, context.Request.Path + context.Request.QueryString);
                         await context.Response.WriteAsync(JsonSerializer.Serialize(new 
                         {
-                            StatusCode = statusCode,
                             ErrorMessage = ex.Message
                         }));
                     }

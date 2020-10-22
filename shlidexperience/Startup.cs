@@ -12,6 +12,7 @@ using shlidexperience.Helpers;
 using System.Collections.Generic;
 using WebApi.Helpers;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace shlidexperience
 {
@@ -72,6 +73,8 @@ namespace shlidexperience
 
             var clientUrl = config.GetValue<string>("ClientUrl");
             services.RegisterAppCors(clientUrl);
+
+            services.AddAutoMapper(typeof(Startup).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
