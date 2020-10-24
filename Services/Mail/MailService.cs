@@ -24,22 +24,27 @@ namespace Services.Mail
             _logger = logger;
         }
 
-        public bool AccountActivatedSendMail(string languageSign, string email, string fullName, string link)
+        public bool AccountActivatedMail(string languageSign, string email, string fullName, string link)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool RegisteredUserSendMail(string languageSign, string email, string fullName, string link)
+        public bool RegisteredUserMail(string languageSign, string email, string fullName, string link)
+        {
+            var body = CreateEmailBody(languageSign, "UserRegistered");
+            body = body.Replace("{name}", fullName);
+            body = body.Replace("{link}", link);
+            var mailSubject = "Successful registration";
+
+            return SendEmailWithAttachment(languageSign, email, mailSubject, true, body, null, null, null);
+        }
+
+        public bool ResetPasswordDoneMail(string languageSign, string email, string fullName, string link)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool ResetPasswordDoneSendMail(string languageSign, string email, string fullName, string link)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool ResetPasswordSendMail(string languageSign, string email, string fullName, string link)
+        public bool ResetPasswordMail(string languageSign, string email, string fullName, string link)
         {
             throw new System.NotImplementedException();
         }

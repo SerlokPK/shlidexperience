@@ -2,9 +2,9 @@
 {
     public interface IMailService
     {
-        bool RegisteredUserSendMail(string languageSign, string email, string fullName, string link);
-        bool AccountActivatedSendMail(string languageSign, string email, string fullName, string link);
-        bool ResetPasswordSendMail(string languageSign, string email, string fullName, string link);
-        bool ResetPasswordDoneSendMail(string languageSign, string email, string fullName, string link);
+        bool RegisteredUserMail(string languageSign, string email, string fullName, string link);
+        bool AccountActivatedMail(string languageSign, string email, string fullName, string link);
+        bool ResetPasswordMail(string languageSign, string email, string fullName, string link);
+        bool ResetPasswordDoneMail(string languageSign, string email, string fullName, string link);
     }
 }
