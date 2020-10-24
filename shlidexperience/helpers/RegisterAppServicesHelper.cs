@@ -3,6 +3,7 @@ using Interfaces.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Repositories.Account;
 using Services.Account;
+using Services.Mail;
 
 namespace shlidexperience.helpers
 {
@@ -11,6 +12,7 @@ namespace shlidexperience.helpers
         public static IServiceCollection RegisterAppServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IMailService, MailService>();
             return services;
         }
 

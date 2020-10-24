@@ -18,6 +18,8 @@ namespace Services.Account
 
         public AccountService(IAccountRepository accountRepository, IOptions<AppSettings> options, IMapper mapper)
         {
+            DependencyHelper.ThrowIfNull(accountRepository, options, mapper);
+
             _accountsRepository = accountRepository;
             _appSettings = options.Value;
             _mapper = mapper;

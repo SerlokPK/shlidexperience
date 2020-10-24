@@ -33,7 +33,7 @@ namespace Common.Helpers
             return new ArgumentNullException(name);
         }
 
-        public enum ArgumentAction
+        private enum ArgumentAction
         {
             Undefined = 0,
             Skip
