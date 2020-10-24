@@ -67,5 +67,15 @@ namespace Services.Account
 
             return null;
         }
+
+        public void ResetPassword(ResetPasswordDto model)
+        {
+            var user = _accountsRepository.ResetPassword(model.Password, model.ResetKey);
+            if (user != null)
+            {
+                var link = $"{_appSettings.WebsiteUrl}/account/login";
+                _mailService.ResetPasswordDoneMail(Language.DefaultSign, user.Email, user.FullName, link);
+            }
+        }
     }
 }

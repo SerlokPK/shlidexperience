@@ -35,12 +35,23 @@ namespace Services.Mail
 
         public bool ResetPasswordDoneMail(string languageSign, string email, string fullName, string link)
         {
-            throw new System.NotImplementedException();
+            var body = CreateEmailBody(languageSign, "ResetPasswordDone");
+            body = body.Replace("{email}", email);
+            body = body.Replace("{name}", fullName);
+            body = body.Replace("{link}", link);
+            var mailSubject = "Password reset successfully";
+
+            return SendEmailWithAttachment(languageSign, email, mailSubject, true, body, null, null, null);
         }
 
         public bool ResetPasswordMail(string languageSign, string email, string fullName, string link)
         {
-            throw new System.NotImplementedException();
+            var body = CreateEmailBody(languageSign, "ResetPassword");
+            body = body.Replace("{name}", fullName);
+            body = body.Replace("{link}", link);
+            var mailSubject = "Forgot password initiated";
+
+            return SendEmailWithAttachment(languageSign, email, mailSubject, true, body, null, null, null);
         }
 
         private string CreateEmailBody(string languageSign, string template)

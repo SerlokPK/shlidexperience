@@ -129,5 +129,38 @@ namespace Repositories.Account
                 };
             }
         }
+
+        public UserReset ResetPassword(string password, string resetKey)
+        {
+            using (var context = GetContext())
+            {
+                var saltPassword = PasswordHelper.GenerateRandomPassword(PasswordConstants.UniqueKeyLength, false, false);
+                var shaPassword = HashHelper.Hash(saltPassword + password);
+
+                var user = context.Users.SingleOrDefault(x => x.ResetKey == resetKey && x.Status == UserStatus.Active.Status);
+
+                if (user != null && IsResetKeyValid(user.ResetKeyTime))
+                {
+                    user.PasswordSalt = saltPassword;
+                    user.Password = shaPassword;
+                    user.ResetKey = null;
+                    user.ResetKeyTime = null;
+                    context.SaveChanges();
+
+                    return new UserReset
+                    {
+                        FullName = $"{user.FirstName} {user.LastName}",
+                        Email = user.Email
+                    };
+                }
+
+                return null;
+            }
+        }
+
+        private bool IsResetKeyValid(DateTime? resetKeyTime)
+        {
+            return resetKeyTime != null && DateTime.Now < resetKeyTime;
+        }
     }
 }
