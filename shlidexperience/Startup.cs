@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using WebApi.Helpers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Services.Mappings;
 
 namespace shlidexperience
 {
@@ -35,7 +36,8 @@ namespace shlidexperience
                     .RegisterAppServices()
                     .RegisterAppRepositories()
                     .AddDbContext<ShlidexperienceContext>(options => 
-                                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
+                    .RegisterAutoMapper();
 
             var config = Configuration.GetSection("AppSettings");
             services.AddSwaggerGen(s =>
@@ -73,8 +75,6 @@ namespace shlidexperience
 
             var clientUrl = config.GetValue<string>("ClientUrl");
             services.RegisterAppCors(clientUrl);
-
-            services.AddAutoMapper(typeof(Startup).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

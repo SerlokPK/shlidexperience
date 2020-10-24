@@ -57,7 +57,7 @@ namespace Repositories.Account
             }
         }
 
-        public User Register(string email, string username, string password)
+        public User Register(string email, string firstName, string lastName, string password)
         {
             using (var context = GetContext())
             {
@@ -71,6 +71,8 @@ namespace Repositories.Account
 
                 var newUser = new Data.User
                 {
+                    FirstName = firstName,
+                    LastName = lastName,
                     Password = shaPassword,
                     PasswordSalt = saltPassword,
                     Created = DateTime.Now,
@@ -79,12 +81,12 @@ namespace Repositories.Account
                     Email = email,
                 };
 
-                var userId = context.Users.Add(newUser).Entity.UserId;
+                var userEntity = context.Users.Add(newUser).Entity;
                 context.SaveChanges();
 
                 return new User
                 {
-                    UserId = userId,
+                    UserId = userEntity.UserId,
                     UserKey = newUser.UserKey,
                     Email = newUser.Email,
                     FullName = $"{newUser.FirstName} {newUser.LastName}",

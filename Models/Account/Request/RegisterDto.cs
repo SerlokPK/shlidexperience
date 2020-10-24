@@ -11,7 +11,11 @@ namespace DtoModels.Account.Request
 
         [Required]
         [StringLength(50)]
-        public string Username { get; set; }
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string LastName { get; set; }
 
         [Required]
         [RegularExpression(Regex.PasswordFormat)]

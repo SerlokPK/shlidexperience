@@ -15,8 +15,8 @@ namespace Services.Mail
     {
         private readonly Dictionary<string, string> MailTemplatesDict = new Dictionary<string, string>();
         private readonly AppSettings _appSettings;
-        private readonly ILogger _logger;
-        public MailService(IOptions<AppSettings> options, ILogger logger)
+        private readonly ILogger<MailService> _logger;
+        public MailService(IOptions<AppSettings> options, ILogger<MailService> logger)
         {
             DependencyHelper.ThrowIfNull(options, logger);
 
@@ -120,7 +120,7 @@ namespace Services.Mail
                 Body = layout,
                 AttachmentPath = filePath,
                 AttachmentData = dataAttachment,
-                ReplayTo = replyTo,
+                ReplyTo = replyTo,
                 From = _appSettings.EmailSettingsFrom,
                 FromName = _appSettings.EmailSettingsFromName,
                 Host = _appSettings.EmailSettingsHost,
@@ -150,7 +150,7 @@ namespace Services.Mail
                 var smtp = new SmtpClient(mail.Host, mail.Port)
                 {
                     EnableSsl = mail.EnableSsl,
-                    Credentials = new System.Net.NetworkCredential(mail.Username, mail.Pass),
+                    Credentials = new System.Net.NetworkCredential(mail.Username, mail.Pass)
                 };
 
                 MailAddress fromAddress = new MailAddress(mail.From, mail.FromName);
@@ -162,9 +162,9 @@ namespace Services.Mail
                     Body = mail.Body,
                     IsBodyHtml = mail.IsBodyHtml
                 };
-                if (!string.IsNullOrEmpty(mail.ReplayTo))
+                if (!string.IsNullOrEmpty(mail.ReplyTo))
                 {
-                    email.ReplyToList.Add(mail.ReplayTo);
+                    email.ReplyToList.Add(mail.ReplyTo);
                 }
                 if (!string.IsNullOrEmpty(mail.AttachmentPath))
                 {

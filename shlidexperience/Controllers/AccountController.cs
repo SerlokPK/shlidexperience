@@ -20,7 +20,7 @@ namespace shlidexperience.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginDto model)
         {
-            var userAuth = _accountService.Login(model.Email, model.Password);
+            var userAuth = _accountService.Login(model);
             
             return Ok(userAuth);
         }
@@ -29,7 +29,7 @@ namespace shlidexperience.Controllers
         [Route("register")]
         public IActionResult Register(RegisterDto model)
         {
-            var user = _accountService.Register(model.Email, model.Username, model.Password);
+            var user = _accountService.Register(model);
 
             return Created(new Uri(Request.GetDisplayUrl()), user);
         }

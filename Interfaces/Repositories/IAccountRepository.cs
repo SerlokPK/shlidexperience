@@ -5,6 +5,6 @@ namespace Interfaces.Repositories
     public interface IAccountRepository
     {
         User Login(string email, string password);
-        User Register(string email, string username, string password);
+        User Register(string email, string firstName, string lastName, string password);
     }
 }

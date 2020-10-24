@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Common;
+using Common.Constants;
 using Common.Helpers;
 using DomainModels.Users;
+using DtoModels.Account.Request;
 using DtoModels.Account.Response;
 using DtoModels.User.Response;
 using Interfaces.Repositories;
@@ -13,20 +15,23 @@ namespace Services.Account
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountsRepository;
+        private readonly IMailService _mailService;
         private readonly IMapper _mapper;
         private readonly AppSettings _appSettings;
 
-        public AccountService(IAccountRepository accountRepository, IOptions<AppSettings> options, IMapper mapper)
+        public AccountService(IAccountRepository accountRepository, IOptions<AppSettings> options, IMapper mapper,
+                               IMailService mailService)
         {
-            DependencyHelper.ThrowIfNull(accountRepository, options, mapper);
+            DependencyHelper.ThrowIfNull(accountRepository, options, mapper, mailService);
 
             _accountsRepository = accountRepository;
+            _mailService = mailService;
             _appSettings = options.Value;
             _mapper = mapper;
         }
-        public UserAuthDto Login(string email, string password)
+        public UserAuthDto Login(LoginDto model)
         {
-            var user = _accountsRepository.Login(email, password);
+            var user = _accountsRepository.Login(model.Email, model.Password);
             var userAuth = new UserAuthDto
             {
                 User = _mapper.Map<UserDto>(user)
@@ -39,13 +44,13 @@ namespace Services.Account
             return userAuth;
         }
 
-        public UserDto Register(string email, string username, string password)
+        public UserDto Register(RegisterDto model)
         {
-            var registeredUser = _accountsRepository.Register(email, username, password);
+            var registeredUser = _accountsRepository.Register(model.Email, model.FirstName, model.LastName, model.Password);
             if (registeredUser != null)
             {
                 var link = $"{_appSettings.WebsiteUrl}/account/activate/{registeredUser.UserKey}";
-                //_mailService.RegisteredUserSendMail(languageSign, email, username, link);
+                _mailService.RegisteredUserMail(Language.DefaultSign, registeredUser.Email, registeredUser.FullName, link);
 
                 return _mapper.Map<UserDto>(registeredUser);
             }
