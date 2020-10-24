@@ -14,5 +14,6 @@
         public string EmailSettingsPassword { get; set; }
         public int EmailSettingsPort { get; set; }
         public bool EmailSettingsEnableSsl { get; set; }
+        public int ResetKeyDurationInMinutes { get; set; }
     }
 }

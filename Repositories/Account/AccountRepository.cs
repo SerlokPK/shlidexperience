@@ -13,9 +13,44 @@ namespace Repositories.Account
 {
     public class AccountRepository : BaseRepository, IAccountRepository
     {
+        private readonly AppSettings _appSettings;
         public AccountRepository(IOptions<AppSettings> config) : base(config)
         {
+            DependencyHelper.ThrowIfNull(config);
+
+            _appSettings = config.Value;
         }
+
+        public UserReset ForgotPassword(string email)
+        {
+            using (var context = GetContext())
+            {
+                if (string.IsNullOrEmpty(email))
+                {
+                    return null;
+                }
+
+                var user = context.Users.SingleOrDefault(x => x.Email == email);
+
+                if (user != null)
+                {
+                    user.ResetKey = UuidHelper.GenerateUniqueKey(PasswordConstants.UniqueKeyLength);
+                    user.ResetKeyTime = DateTime.Now.AddMinutes(_appSettings.ResetKeyDurationInMinutes);
+                    context.SaveChanges();
+
+                    return new UserReset()
+                    {
+                        FullName = $"{user.FirstName} {user.LastName}",
+                        Email = user.Email,
+                        ResetKey = user.ResetKey,
+                        ResetKeyTime = user.ResetKeyTime
+                    };
+                }
+
+                return null;
+            }
+        }
+
         public User Login(string email, string password)
         {
             using (var context = GetContext())

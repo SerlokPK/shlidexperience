@@ -33,5 +33,19 @@ namespace shlidexperience.Controllers
 
             return Created(new Uri(Request.GetDisplayUrl()), user);
         }
+
+        [HttpPatch]
+        [Route("forgotpassword")]
+        public void ForgotPassword([FromBody] string email)
+        {
+            _accountService.ForgotPassword(email);
+        }
+
+        //[HttpPatch]
+        //[Route("resetpassword")]
+        //public void ResetPassword(ResetPasswordModel model)
+        //{
+        //    _accountsService.ResetPassword(model.Password, model.ResetKey, Localization.Base_EnLanguageSign);
+        //}
     }
 }

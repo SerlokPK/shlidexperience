@@ -8,5 +8,6 @@ namespace Interfaces.Services
     {
         UserAuthDto Login(LoginDto model);
         UserDto Register(RegisterDto model);
+        void ForgotPassword(string email);
     }
 }

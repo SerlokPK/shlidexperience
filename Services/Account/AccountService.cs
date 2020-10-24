@@ -29,6 +29,17 @@ namespace Services.Account
             _appSettings = options.Value;
             _mapper = mapper;
         }
+
+        public void ForgotPassword(string email)
+        {
+            var user = _accountsRepository.ForgotPassword(email);
+            if (user != null)
+            {
+                var link = $"{_appSettings.WebsiteUrl}/account/reset-password/{user.ResetKey}";
+                _mailService.ResetPasswordMail(Language.DefaultSign, user.Email, user.FullName, link);
+            }
+        }
+
         public UserAuthDto Login(LoginDto model)
         {
             var user = _accountsRepository.Login(model.Email, model.Password);
@@ -49,8 +60,7 @@ namespace Services.Account
             var registeredUser = _accountsRepository.Register(model.Email, model.FirstName, model.LastName, model.Password);
             if (registeredUser != null)
             {
-                var link = $"{_appSettings.WebsiteUrl}/account/activate/{registeredUser.UserKey}";
-                _mailService.RegisteredUserMail(Language.DefaultSign, registeredUser.Email, registeredUser.FullName, link);
+                _mailService.RegisteredUserMail(Language.DefaultSign, registeredUser.Email, registeredUser.FullName);
 
                 return _mapper.Map<UserDto>(registeredUser);
             }

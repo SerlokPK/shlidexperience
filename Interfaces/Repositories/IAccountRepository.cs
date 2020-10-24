@@ -6,5 +6,6 @@ namespace Interfaces.Repositories
     {
         User Login(string email, string password);
         User Register(string email, string firstName, string lastName, string password);
+        UserReset ForgotPassword(string email);
     }
 }

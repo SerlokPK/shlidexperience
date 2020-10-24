@@ -24,16 +24,10 @@ namespace Services.Mail
             _logger = logger;
         }
 
-        public bool AccountActivatedMail(string languageSign, string email, string fullName, string link)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool RegisteredUserMail(string languageSign, string email, string fullName, string link)
+        public bool RegisteredUserMail(string languageSign, string email, string fullName)
         {
             var body = CreateEmailBody(languageSign, "UserRegistered");
             body = body.Replace("{name}", fullName);
-            body = body.Replace("{link}", link);
             var mailSubject = "Successful registration";
 
             return SendEmailWithAttachment(languageSign, email, mailSubject, true, body, null, null, null);
