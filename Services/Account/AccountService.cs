@@ -35,7 +35,7 @@ namespace Services.Account
             var user = _accountsRepository.ForgotPassword(email);
             if (user != null)
             {
-                var link = $"{_appSettings.WebsiteUrl}/account/reset-password/{user.ResetKey}";
+                var link = $"{_appSettings.WebsiteUrl}/auth/forgot-password/{user.ResetKey}";
                 _mailService.ResetPasswordMail(Language.DefaultSign, user.Email, user.FullName, link);
             }
         }
