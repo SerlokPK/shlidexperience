@@ -1,6 +1,7 @@
 using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,9 +12,6 @@ using shlidexperience.helpers;
 using shlidexperience.Helpers;
 using System.Collections.Generic;
 using WebApi.Helpers;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using Services.Mappings;
 
 namespace shlidexperience
 {
@@ -29,17 +27,19 @@ namespace shlidexperience
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var config = Configuration.GetSection("AppSettings");
             services.AddControllers();
             services.AddOptions()
                     .AddHttpClient()
-                    .Configure<AppSettings>(Configuration.GetSection("AppSettings"))
+                    .Configure<AppSettings>(config)
+                    .RegisterAppCors(config.GetValue<string>("WebsiteUrl"))
                     .RegisterAppServices()
                     .RegisterAppRepositories()
-                    .AddDbContext<ShlidexperienceContext>(options => 
+                    .AddDbContext<ShlidexperienceContext>(options =>
                                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
                     .RegisterAutoMapper();
 
-            var config = Configuration.GetSection("AppSettings");
+
             services.AddSwaggerGen(s =>
             {
                 s.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "Shlidexpirience", Version = "v1" });
@@ -72,9 +72,6 @@ namespace shlidexperience
                     }
                 });
             });
-
-            var clientUrl = config.GetValue<string>("ClientUrl");
-            services.RegisterAppCors(clientUrl);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,8 +91,8 @@ namespace shlidexperience
             });
 
             app.RegisterExceptionHandling(logger);
-            app.UseHttpsRedirection()
-               .UseCors(RegisterAppCorsHelper.AppCorsPolicyName)
+            app.UseCors(RegisterAppCorsHelper.AppCorsPolicyName)
+               .UseHttpsRedirection()
                .UseRouting()
                .UseAuthorization()
                .UseMiddleware<JwtMiddleware>()

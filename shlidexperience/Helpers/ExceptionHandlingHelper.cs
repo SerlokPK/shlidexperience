@@ -29,7 +29,7 @@ namespace shlidexperience.Helpers
                         logger.LogError(ex, context.Request.Path + context.Request.QueryString);
                         await context.Response.WriteAsync(JsonSerializer.Serialize(new 
                         {
-                            ErrorMessage = ex.Message
+                            errorMessage = ex.Message
                         }));
                     }
                 });
