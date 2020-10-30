@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repositories.Data
 {
-    public class User
+    [Table("Users")]
+    public class UserEntity
     {
         [Key]
         public int UserId { get; set; }
