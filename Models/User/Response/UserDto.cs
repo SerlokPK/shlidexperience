@@ -1,4 +1,6 @@
-﻿namespace DtoModels.User.Response
+﻿using System;
+
+namespace DtoModels.User.Response
 {
     public class UserDto
     {
@@ -6,5 +8,6 @@
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Status { get; set; }
+        public DateTime Created { get; set; }
     }
 }

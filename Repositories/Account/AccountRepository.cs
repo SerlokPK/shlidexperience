@@ -81,7 +81,8 @@ namespace Repositories.Account
                     UserId = user.UserId,
                     Status = user.Status,
                     Email = user.Email,
-                    FullName = $"{user.FirstName} {user.LastName}"
+                    FullName = $"{user.FirstName} {user.LastName}",
+                    Created = user.Created
                 };
 
                 user.LastLogin = DateTime.Now;

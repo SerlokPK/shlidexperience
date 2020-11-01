@@ -1,4 +1,6 @@
-﻿namespace DomainModels.Users
+﻿using System;
+
+namespace DomainModels.Users
 {
     public class User
     {
@@ -7,5 +9,6 @@
         public string Email { get; set; }
         public string Status { get; set; }
         public string UserKey { get; set; }
+        public DateTime Created { get; set; }
     }
 }
