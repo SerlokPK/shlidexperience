@@ -104,7 +104,7 @@ namespace Repositories.Account
                 var saltPassword = PasswordHelper.GenerateRandomPassword(PasswordConstants.UniqueKeyLength, false, false);
                 var shaPassword = HashHelper.Hash(saltPassword + password);
 
-                var newUser = new Data.User
+                var newUser = new Data.UserEntity
                 {
                     FirstName = firstName,
                     LastName = lastName,
