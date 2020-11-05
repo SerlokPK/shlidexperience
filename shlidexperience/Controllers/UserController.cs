@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.Helpers;
+using DtoModels.User.Request;
 using Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -25,6 +26,30 @@ namespace shlidexperience.Controllers
             var user = _userService.GetUserById(userId);
 
             return Ok(user);
+        }
+
+        [HttpPut("{userId}/email")]
+        public IActionResult ChangeEmail([FromBody] ChangeEmailModel model)
+        {
+            _userService.ChangeEmail(model);
+
+            return NoContent();
+        }
+
+        [HttpPut("{userId}")]
+        public IActionResult EditUser([FromBody] EditUserModel model)
+        {
+            _userService.EditUser(model);
+
+            return NoContent();
+        }
+
+        [HttpPut("{userId}/password")]
+        public IActionResult ChangePassword([FromBody] ChangePasswordModel model)
+        {
+            _userService.ChangePassword(model);
+
+            return NoContent();
         }
     }
 }

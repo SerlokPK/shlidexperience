@@ -40,7 +40,7 @@ namespace Services.Account
             }
         }
 
-        public UserAuthDto Login(LoginDto model)
+        public UserAuthDto Login(LoginModel model)
         {
             var user = _accountsRepository.Login(model.Email, model.Password);
             var userAuth = new UserAuthDto
@@ -55,7 +55,7 @@ namespace Services.Account
             return userAuth;
         }
 
-        public UserDto Register(RegisterDto model)
+        public UserDto Register(RegisterModel model)
         {
             var registeredUser = _accountsRepository.Register(model.Email, model.FirstName, model.LastName, model.Password);
             if (registeredUser != null)
@@ -68,7 +68,7 @@ namespace Services.Account
             return null;
         }
 
-        public void ResetPassword(ResetPasswordDto model)
+        public void ResetPassword(ResetPasswordModel model)
         {
             var user = _accountsRepository.ResetPassword(model.Password, model.ResetKey);
             if (user != null)
