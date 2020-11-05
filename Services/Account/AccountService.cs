@@ -60,7 +60,7 @@ namespace Services.Account
             var registeredUser = _accountsRepository.Register(model.Email, model.FirstName, model.LastName, model.Password);
             if (registeredUser != null)
             {
-                _mailService.RegisteredUserMail(Language.DefaultSign, registeredUser.Email, registeredUser.FullName);
+                _mailService.RegisteredUserMail(Language.DefaultSign, registeredUser.Email, $"{registeredUser.FirstName} {registeredUser.LastName}");
 
                 return _mapper.Map<UserDto>(registeredUser);
             }

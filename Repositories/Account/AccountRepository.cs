@@ -1,10 +1,12 @@
-﻿using Common;
+﻿using AutoMapper;
+using Common;
 using Common.Helpers;
 using DomainModels.Exceptions;
 using DomainModels.Users;
 using Interfaces.Repositories;
 using Microsoft.Extensions.Options;
 using Repositories.Constants;
+using Repositories.Data;
 using Repositories.Helpers;
 using System;
 using System.Linq;
@@ -14,11 +16,14 @@ namespace Repositories.Account
     public class AccountRepository : BaseRepository, IAccountRepository
     {
         private readonly AppSettings _appSettings;
-        public AccountRepository(IOptions<AppSettings> config) : base(config)
+        private readonly IMapper _mapper;
+
+        public AccountRepository(IOptions<AppSettings> config, IMapper mapper) : base(config)
         {
-            DependencyHelper.ThrowIfNull(config);
+            DependencyHelper.ThrowIfNull(config, mapper);
 
             _appSettings = config.Value;
+            _mapper = mapper;
         }
 
         public UserReset ForgotPassword(string email)
@@ -38,13 +43,7 @@ namespace Repositories.Account
                     user.ResetKeyTime = DateTime.Now.AddMinutes(_appSettings.ResetKeyDurationInMinutes);
                     context.SaveChanges();
 
-                    return new UserReset()
-                    {
-                        FullName = $"{user.FirstName} {user.LastName}",
-                        Email = user.Email,
-                        ResetKey = user.ResetKey,
-                        ResetKeyTime = user.ResetKeyTime
-                    };
+                    return _mapper.Map<UserReset>(user);
                 }
 
                 return null;
@@ -76,14 +75,7 @@ namespace Repositories.Account
                     throw new UnauthorizedException("Invalid email or username");
                 }
 
-                var userAuth = new User
-                {
-                    UserId = user.UserId,
-                    Status = user.Status,
-                    Email = user.Email,
-                    FullName = $"{user.FirstName} {user.LastName}",
-                    Created = user.Created
-                };
+                var userAuth = _mapper.Map<User>(user);
 
                 user.LastLogin = DateTime.Now;
 
@@ -120,14 +112,7 @@ namespace Repositories.Account
                 var userEntity = context.Users.Add(newUser).Entity;
                 context.SaveChanges();
 
-                return new User
-                {
-                    UserId = userEntity.UserId,
-                    UserKey = newUser.UserKey,
-                    Email = newUser.Email,
-                    FullName = $"{newUser.FirstName} {newUser.LastName}",
-                    Status = newUser.Status
-                };
+                return _mapper.Map<User>(userEntity);
             }
         }
 
@@ -148,11 +133,7 @@ namespace Repositories.Account
                     user.ResetKeyTime = null;
                     context.SaveChanges();
 
-                    return new UserReset
-                    {
-                        FullName = $"{user.FirstName} {user.LastName}",
-                        Email = user.Email
-                    };
+                    return _mapper.Map<UserReset>(user);
                 }
 
                 return null;
