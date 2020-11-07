@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Common;
+using Common.Constants;
 using Common.Helpers;
 using DomainModels.Users;
 using DtoModels.User.Request;
 using DtoModels.User.Response;
 using Interfaces.Repositories;
 using Interfaces.Services;
+using Microsoft.Extensions.Options;
 
 namespace Services.UserSer
 {
@@ -12,25 +15,37 @@ namespace Services.UserSer
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IMailService _mailService;
+        private readonly AppSettings _appSettings;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, IMailService mailService,
+                            IOptions<AppSettings> options)
         {
-            DependencyHelper.ThrowIfNull(userRepository, mapper);
+            DependencyHelper.ThrowIfNull(userRepository, mapper, mailService, options);
 
             _userRepository = userRepository;
             _mapper = mapper;
+            _mailService = mailService;
+            _appSettings = options.Value;
         }
 
         public void ChangeEmail(ChangeEmailModel model)
         {
-            _userRepository.ChangeEmail(model.UserId, model.NewEmail, model.Password);
-            // todo email
+            var user =_userRepository.ChangeEmail(model.UserId, model.NewEmail, model.Password);
+            if(user != null)
+            {
+                _mailService.ChangeEmailMail(Language.DefaultSign, user.Email, user.FullName);
+            }
         }
 
         public void ChangePassword(ChangePasswordModel model)
         {
-            _userRepository.ChangePassword(model.UserId, model.Password, model.NewPassword);
-            // todo email
+            var user = _userRepository.ChangePassword(model.UserId, model.Password, model.NewPassword);
+            if(user != null)
+            {
+                var link = $"{_appSettings.WebsiteUrl}/auth/login";
+                _mailService.PasswordChangedMail(Language.DefaultSign, user.Email, user.FullName, link);
+            }
         }
 
         public void EditUser(EditUserModel model)

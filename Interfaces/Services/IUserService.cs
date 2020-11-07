@@ -1,4 +1,5 @@
-﻿using DtoModels.User.Request;
+﻿using DomainModels.Users;
+using DtoModels.User.Request;
 using DtoModels.User.Response;
 
 namespace Interfaces.Services

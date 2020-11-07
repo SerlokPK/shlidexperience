@@ -28,6 +28,7 @@ namespace Services.Mail
         {
             var body = CreateEmailBody(languageSign, "EmailChanged");
             body = body.Replace("{name}", fullName);
+            body = body.Replace("{email}", email);
             var mailSubject = "Email changed";
 
             return SendEmailWithAttachment(languageSign, email, mailSubject, true, body, null, null, null);

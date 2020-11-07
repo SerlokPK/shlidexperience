@@ -24,7 +24,7 @@ namespace Repositories.UserRepo
             _mapper = mapper;
         }
 
-        public void ChangeEmail(int userId, string newEmail, string password)
+        public UserReset ChangeEmail(int userId, string newEmail, string password)
         {
             using (var context = GetContext())
             {
@@ -41,13 +41,20 @@ namespace Repositories.UserRepo
                     throw new UnauthorizedException("Invalid password");
                 }
 
+                var oldEmail = dbUser.Email;
                 dbUser.Email = newEmail;
 
                 context.SaveChanges();
+
+                return new UserReset
+                {
+                    Email = oldEmail,
+                    FullName = $"{dbUser.FirstName} {dbUser.LastName}"
+                };
             }
         }
 
-        public void ChangePassword(int userId, string password, string newPassword)
+        public UserReset ChangePassword(int userId, string password, string newPassword)
         {
             using (var context = GetContext())
             {
@@ -70,6 +77,8 @@ namespace Repositories.UserRepo
                 dbUser.Password = shaPassword;
 
                 context.SaveChanges();
+
+                return _mapper.Map<UserReset>(dbUser);
             }
         }
 
@@ -79,7 +88,7 @@ namespace Repositories.UserRepo
             {
                 var dbUser = context.Users.SingleOrDefault(u => u.UserId == user.UserId);
 
-                if(dbUser == null)
+                if (dbUser == null)
                 {
                     throw new NotFoundException("User entity not found");
                 }
@@ -96,8 +105,8 @@ namespace Repositories.UserRepo
             using (var context = GetContext())
             {
                 var user = context.Users.SingleOrDefault(u => u.UserId == userId);
-                
-                return _mapper.Map<User>(user);            
+
+                return _mapper.Map<User>(user);
             }
         }
     }
