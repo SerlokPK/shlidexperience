@@ -18,7 +18,7 @@ namespace shlidexperience.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginDto model)
+        public IActionResult Login(LoginModel model)
         {
             var userAuth = _accountService.Login(model);
             
@@ -27,7 +27,7 @@ namespace shlidexperience.Controllers
 
         [HttpPost]
         [Route("register")]
-        public IActionResult Register(RegisterDto model)
+        public IActionResult Register(RegisterModel model)
         {
             var user = _accountService.Register(model);
 
@@ -43,7 +43,7 @@ namespace shlidexperience.Controllers
 
         [HttpPost]
         [Route("resetpassword")]
-        public void ResetPassword(ResetPasswordDto model)
+        public void ResetPassword(ResetPasswordModel model)
         {
             _accountService.ResetPassword(model);
         }

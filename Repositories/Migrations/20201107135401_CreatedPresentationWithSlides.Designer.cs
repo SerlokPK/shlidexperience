@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.Data;
 
 namespace Repositories.Migrations
 {
     [DbContext(typeof(ShlidexperienceContext))]
-    partial class ShlidexperienceContextModelSnapshot : ModelSnapshot
+    [Migration("20201107135401_CreatedPresentationWithSlides")]
+    partial class CreatedPresentationWithSlides
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,18 +100,6 @@ namespace Repositories.Migrations
                     b.HasKey("SlideTypeId");
 
                     b.ToTable("SlideTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            SlideTypeId = (short)1,
-                            Type = 0
-                        },
-                        new
-                        {
-                            SlideTypeId = (short)2,
-                            Type = 1
-                        });
                 });
 
             modelBuilder.Entity("Repositories.Data.UserEntity", b =>

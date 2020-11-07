@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DtoModels.Account.Request
+namespace DtoModels.User.Request
 {
-    public class LoginDto
+    public class ChangeEmailModel : UserIdModel
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string NewEmail { get; set; }
 
         [Required]
+        [StringLength(20)]
         public string Password { get; set; }
     }
 }
