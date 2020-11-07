@@ -1,5 +1,4 @@
-﻿using DomainModels.Users;
-using DtoModels.User.Request;
+﻿using DtoModels.User.Request;
 using DtoModels.User.Response;
 
 namespace Interfaces.Services
@@ -7,8 +6,8 @@ namespace Interfaces.Services
     public interface IUserService
     {
         UserDto GetUserById(int userId);
-        void EditUser(EditUserModel model);
-        void ChangeEmail(ChangeEmailModel model);
+        UserDto EditUser(EditUserModel model);
+        UserDto ChangeEmail(ChangeEmailModel model);
         void ChangePassword(ChangePasswordModel model);
     }
 }

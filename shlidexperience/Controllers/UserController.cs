@@ -31,17 +31,17 @@ namespace shlidexperience.Controllers
         [HttpPut("{userId}/email")]
         public IActionResult ChangeEmail([FromBody] ChangeEmailModel model)
         {
-            _userService.ChangeEmail(model);
+            var user = _userService.ChangeEmail(model);
 
-            return NoContent();
+            return Ok(user);
         }
 
         [HttpPut("{userId}")]
         public IActionResult EditUser([FromBody] EditUserModel model)
         {
-            _userService.EditUser(model);
+            var user = _userService.EditUser(model);
 
-            return NoContent();
+            return Ok(user);
         }
 
         [HttpPut("{userId}/password")]

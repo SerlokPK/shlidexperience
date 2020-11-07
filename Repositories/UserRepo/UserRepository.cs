@@ -6,6 +6,7 @@ using DomainModels.Users;
 using Interfaces.Repositories;
 using Microsoft.Extensions.Options;
 using Repositories.Constants;
+using Repositories.Data;
 using Repositories.Helpers;
 using System.Linq;
 
@@ -13,18 +14,16 @@ namespace Repositories.UserRepo
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
 
         public UserRepository(IOptions<AppSettings> options, IMapper mapper) : base(options)
         {
             DependencyHelper.ThrowIfNull(options, mapper);
 
-            _appSettings = options.Value;
             _mapper = mapper;
         }
 
-        public UserReset ChangeEmail(int userId, string newEmail, string password)
+        public User ChangeEmail(int userId, string newEmail, string password)
         {
             using (var context = GetContext())
             {
@@ -41,16 +40,12 @@ namespace Repositories.UserRepo
                     throw new UnauthorizedException("Invalid password");
                 }
 
-                var oldEmail = dbUser.Email;
+                var user = _mapper.Map<User>(dbUser);
                 dbUser.Email = newEmail;
 
                 context.SaveChanges();
 
-                return new UserReset
-                {
-                    Email = oldEmail,
-                    FullName = $"{dbUser.FirstName} {dbUser.LastName}"
-                };
+                return user;
             }
         }
 
@@ -82,7 +77,7 @@ namespace Repositories.UserRepo
             }
         }
 
-        public void EditUser(User user)
+        public User EditUser(User user)
         {
             using (var context = GetContext())
             {
@@ -97,6 +92,8 @@ namespace Repositories.UserRepo
                 dbUser.LastName = user.LastName;
 
                 context.SaveChanges();
+
+                return GetUserById(context, user.UserId);
             }
         }
 
@@ -104,10 +101,15 @@ namespace Repositories.UserRepo
         {
             using (var context = GetContext())
             {
-                var user = context.Users.SingleOrDefault(u => u.UserId == userId);
-
-                return _mapper.Map<User>(user);
+                return GetUserById(context, userId);
             }
+        }
+
+        private User GetUserById(ShlidexperienceContext context, int userId)
+        {
+            var user = context.Users.SingleOrDefault(u => u.UserId == userId);
+
+            return _mapper.Map<User>(user);
         }
     }
 }

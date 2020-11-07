@@ -29,29 +29,27 @@ namespace Services.UserSer
             _appSettings = options.Value;
         }
 
-        public void ChangeEmail(ChangeEmailModel model)
+        public UserDto ChangeEmail(ChangeEmailModel model)
         {
-            var user =_userRepository.ChangeEmail(model.UserId, model.NewEmail, model.Password);
-            if(user != null)
-            {
-                _mailService.ChangeEmailMail(Language.DefaultSign, user.Email, user.FullName);
-            }
+            var user = _userRepository.ChangeEmail(model.UserId, model.NewEmail, model.Password);
+            _mailService.ChangeEmailMail(Language.DefaultSign, user.Email, model.NewEmail, $"{user.FirstName} {user.LastName}");
+
+            return _mapper.Map<UserDto>(user);
         }
 
         public void ChangePassword(ChangePasswordModel model)
         {
             var user = _userRepository.ChangePassword(model.UserId, model.Password, model.NewPassword);
-            if(user != null)
-            {
-                var link = $"{_appSettings.WebsiteUrl}/auth/login";
-                _mailService.PasswordChangedMail(Language.DefaultSign, user.Email, user.FullName, link);
-            }
+            var link = $"{_appSettings.WebsiteUrl}/auth/login";
+            _mailService.PasswordChangedMail(Language.DefaultSign, user.Email, user.FullName, link);
         }
 
-        public void EditUser(EditUserModel model)
+        public UserDto EditUser(EditUserModel model)
         {
             var user = _mapper.Map<User>(model);
-            _userRepository.EditUser(user);
+            user = _userRepository.EditUser(user);
+
+            return _mapper.Map<UserDto>(user);
         }
 
         public UserDto GetUserById(int userId)
