@@ -69,6 +69,7 @@ namespace Repositories.UserRepo
                 var saltPassword = PasswordHelper.GenerateRandomPassword(PasswordConstants.UniqueKeyLength, false, false);
                 shaPassword = HashHelper.Hash(saltPassword + password);
 
+                dbUser.PasswordSalt = saltPassword;
                 dbUser.Password = shaPassword;
 
                 context.SaveChanges();

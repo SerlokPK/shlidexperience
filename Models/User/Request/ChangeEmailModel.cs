@@ -9,6 +9,7 @@ namespace DtoModels.User.Request
         public string NewEmail { get; set; }
 
         [Required]
+        [StringLength(20)]
         public string Password { get; set; }
     }
 }

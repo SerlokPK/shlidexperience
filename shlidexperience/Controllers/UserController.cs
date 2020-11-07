@@ -37,7 +37,7 @@ namespace shlidexperience.Controllers
         }
 
         [HttpPut("{userId}")]
-        public IActionResult EditUser([FromBody] EditUserModel model)
+        public IActionResult EditUser([FromForm] EditUserModel model)
         {
             var user = _userService.EditUser(model);
 
