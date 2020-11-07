@@ -22,8 +22,8 @@ namespace Repositories.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SlideTypeEntity>()
-                        .HasData(new SlideTypeEntity { Type = SlideType.MultipleChoice},
-                                 new SlideTypeEntity { Type = SlideType.ReactionQuestion });
+                        .HasData(new SlideTypeEntity { SlideTypeId = 1, Type = SlideType.MultipleChoice },
+                                 new SlideTypeEntity { SlideTypeId = 2, Type = SlideType.ReactionQuestion });
         }
     }
 }
