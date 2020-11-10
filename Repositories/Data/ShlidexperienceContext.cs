@@ -1,4 +1,4 @@
-﻿using Common.Enums;
+﻿using DomainModels.Slides;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories.Data
