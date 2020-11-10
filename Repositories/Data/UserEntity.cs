@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -46,5 +48,7 @@ namespace Repositories.Data
         public DateTime Created { get; set; }
 
         public DateTime? LastLogin { get; set; }
+
+        public virtual IEnumerable<PresentationEntity> Presentations { get; set; } = new List<PresentationEntity>();
     }
 }

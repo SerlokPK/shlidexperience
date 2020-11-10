@@ -6,9 +6,9 @@ namespace Interfaces.Services
 {
     public interface IAccountService
     {
-        UserAuthDto Login(LoginDto model);
-        UserDto Register(RegisterDto model);
+        UserAuthDto Login(LoginModel model);
+        UserDto Register(RegisterModel model);
         void ForgotPassword(string email);
-        void ResetPassword(ResetPasswordDto model);
+        void ResetPassword(ResetPasswordModel model);
     }
 }

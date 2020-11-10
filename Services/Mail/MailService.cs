@@ -24,6 +24,26 @@ namespace Services.Mail
             _logger = logger;
         }
 
+        public bool ChangeEmailMail(string languageSign, string email, string newEmail, string fullName)
+        {
+            var body = CreateEmailBody(languageSign, "EmailChanged");
+            body = body.Replace("{name}", fullName);
+            body = body.Replace("{email}", newEmail);
+            var mailSubject = "Email changed";
+
+            return SendEmailWithAttachment(languageSign, email, mailSubject, true, body, null, null, null);
+        }
+
+        public bool PasswordChangedMail(string languageSign, string email, string fullName, string link)
+        {
+            var body = CreateEmailBody(languageSign, "PasswordChanged");
+            body = body.Replace("{name}", fullName);
+            body = body.Replace("{link}", link);
+            var mailSubject = "Password changed";
+
+            return SendEmailWithAttachment(languageSign, email, mailSubject, true, body, null, null, null);
+        }
+
         public bool RegisteredUserMail(string languageSign, string email, string fullName)
         {
             var body = CreateEmailBody(languageSign, "UserRegistered");
