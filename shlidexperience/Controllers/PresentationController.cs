@@ -28,5 +28,23 @@ namespace Api.Controllers
 
             return Ok(presentations);
         }
+
+        [HttpGet("{presentationId}")]
+        public IActionResult Get([FromRoute] short presentationId)
+        {
+            var userId = GetUserId();
+            var presentation = _presentationService.GetPresentation(userId, presentationId);
+
+            return Ok(presentation);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromRoute] short presentationId)
+        {
+            var userId = GetUserId();
+            var presentation = _presentationService.GetPresentation(userId, presentationId);
+
+            return Ok(presentation);
+        }
     }
 }
