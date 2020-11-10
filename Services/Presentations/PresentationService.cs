@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.Helpers;
+using DtoModels.Presentations.Request;
 using DtoModels.Presentations.Response;
 using Interfaces.Repositories;
 using Interfaces.Services;
@@ -18,6 +19,11 @@ namespace Services.Presentations
 
             _presentationRepository = presentationRepository;
             _mapper = mapper;
+        }
+
+        public int CreatePresentation(int userId, CreatePresentationModel model)
+        {
+            return _presentationRepository.CreatePresentation(userId, model.Name);
         }
 
         public PresentationDto GetPresentation(int userId, short presentationId)

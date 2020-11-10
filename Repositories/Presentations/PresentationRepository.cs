@@ -6,6 +6,7 @@ using DomainModels.Presentations;
 using Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Repositories.Data;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,6 +21,23 @@ namespace Repositories.Presentations
             DependencyHelper.ThrowIfNull(options, mapper);
 
             _mapper = mapper;
+        }
+
+        public int CreatePresentation(int userId, string name)
+        {
+            using (var context = GetContext())
+            {
+                var presentation = new PresentationEntity
+                {
+                    Name = name,
+                    UserId = userId
+                };
+                var presentationEntity = context.Add(presentation).Entity;
+
+                context.SaveChanges();
+
+                return presentationEntity.PresentationId;
+            }
         }
 
         public Presentation GetPresentation(int userId, short presentationId)

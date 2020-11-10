@@ -7,5 +7,6 @@ namespace Interfaces.Repositories
     {
         List<PresentationView> GetPresentations(int userId);
         Presentation GetPresentation(int userId, short presentationId);
+        int CreatePresentation(int userId, string name);
     }
 }

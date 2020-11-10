@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Presentations\Request\" />
     <Folder Include="Slides\Request\" />
   </ItemGroup>
 
