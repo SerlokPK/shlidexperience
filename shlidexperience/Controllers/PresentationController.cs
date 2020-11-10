@@ -51,12 +51,12 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] CreatePresentationModel model)
+        public IActionResult Put([FromBody] EditPresentationModel model)
         {
             var userId = GetUserId();
-            var presentationId = _presentationService.CreatePresentation(userId, model);
+            _presentationService.UpdatePresentation(userId, model);
 
-            return Created(new Uri(Request.GetDisplayUrl()), presentationId);
+            return NoContent();
         }
     }
 }

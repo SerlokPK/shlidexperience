@@ -40,7 +40,7 @@ namespace Repositories.Presentations
             }
         }
 
-        public Presentation GetPresentation(int userId, short presentationId)
+        public Presentation GetPresentation(int userId, int presentationId)
         {
             using (var context = GetContext())
             {
@@ -64,6 +64,23 @@ namespace Repositories.Presentations
                                            .Where(p => p.UserId == userId);
 
                 return _mapper.Map<List<PresentationView>>(presentations);
+            }
+        }
+
+        public void UpdatePresentation(int userId, int presentationId, string name)
+        {
+            using (var context = GetContext())
+            {
+                var presentation = context.Presentations
+                                          .SingleOrDefault(p => p.PresentationId == presentationId && p.UserId == userId);
+                if (presentation == null)
+                {
+                    throw new NotFoundException("Presentation does not exist");
+                }
+
+                presentation.Name = name;
+
+                context.SaveChanges();
             }
         }
     }

@@ -9,5 +9,6 @@ namespace Interfaces.Services
         List<PresentationViewDto> GetPresentations(int userId);
         PresentationDto GetPresentation(int userId, short presentationId);
         int CreatePresentation(int userId, CreatePresentationModel model);
+        void UpdatePresentation(int userId, EditPresentationModel model);
     }
 }

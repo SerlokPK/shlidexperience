@@ -39,5 +39,10 @@ namespace Services.Presentations
 
             return _mapper.Map<List<PresentationViewDto>>(presentations);
         }
+
+        public void UpdatePresentation(int userId, EditPresentationModel model)
+        {
+            _presentationRepository.UpdatePresentation(userId, model.PresentationId, model.Name);
+        }
     }
 }
