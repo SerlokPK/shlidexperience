@@ -21,12 +21,13 @@ namespace Repositories.Presentations
             _mapper = mapper;
         }
 
-        public List<Presentation> GetPresentations()
+        public List<Presentation> GetPresentations(int userId)
         {
             using (var context = GetContext())
             {
                 var presentations = context.Presentations
                                            .Include(PresentationPath.SlidePath.SlideOptionPath.Path)
+                                           .Where(p => p.UserId == userId)
                                            .ToList();
 
                 return _mapper.Map<List<Presentation>>(presentations);

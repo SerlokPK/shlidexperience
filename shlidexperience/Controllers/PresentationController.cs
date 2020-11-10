@@ -23,6 +23,9 @@ namespace Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            var userId = GetUserId();
+
+
             return Ok();
         }
     }

@@ -15,8 +15,8 @@ namespace Common.Helpers
             var key = Encoding.ASCII.GetBytes(jwtKey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", userInfo.UserId.ToString()) }),
-                Expires = DateTime.UtcNow.AddDays(5),
+                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Sid, userInfo.UserId.ToString()) }),
+                Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
