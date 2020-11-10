@@ -24,9 +24,9 @@ namespace Api.Controllers
         public IActionResult Get()
         {
             var userId = GetUserId();
+            var presentations = _presentationService.GetPresentations(userId);
 
-
-            return Ok();
+            return Ok(presentations);
         }
     }
 }

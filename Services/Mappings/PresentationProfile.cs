@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DomainModels.Presentations;
+using DtoModels.Presentations.Response;
 using Repositories.Data;
 
 namespace Services.Mappings
@@ -14,6 +15,7 @@ namespace Services.Mappings
         private void ConfigureMappings()
         {
             CreateMap<PresentationEntity, Presentation>();
+            CreateMap<Presentation, PresentationDto>();
         }
     }
 }
