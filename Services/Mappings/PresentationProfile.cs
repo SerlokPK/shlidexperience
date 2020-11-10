@@ -2,6 +2,7 @@
 using DomainModels.Presentations;
 using DtoModels.Presentations.Response;
 using Repositories.Data;
+using System.Linq;
 
 namespace Services.Mappings
 {
@@ -16,6 +17,9 @@ namespace Services.Mappings
         {
             CreateMap<PresentationEntity, Presentation>();
             CreateMap<Presentation, PresentationDto>();
+            CreateMap<PresentationEntity, PresentationView>()
+                .ForMember(dest => dest.SlideCount, src => src.MapFrom(x => x.Slides.Count()));
+            CreateMap<PresentationView, PresentationViewDto>();
         }
     }
 }

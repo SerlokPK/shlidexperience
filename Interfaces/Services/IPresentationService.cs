@@ -5,6 +5,6 @@ namespace Interfaces.Services
 {
     public interface IPresentationService
     {
-        List<PresentationDto> GetPresentations(int userId);
+        List<PresentationViewDto> GetPresentations(int userId);
     }
 }

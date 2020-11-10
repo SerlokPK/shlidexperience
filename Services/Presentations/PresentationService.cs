@@ -20,11 +20,11 @@ namespace Services.Presentations
             _mapper = mapper;
         }
 
-        public List<PresentationDto> GetPresentations(int userId)
+        public List<PresentationViewDto> GetPresentations(int userId)
         {
             var presentations = _presentationRepository.GetPresentations(userId);
 
-            return _mapper.Map<List<PresentationDto>>(presentations);
+            return _mapper.Map<List<PresentationViewDto>>(presentations);
         }
     }
 }

@@ -5,6 +5,6 @@ namespace Interfaces.Repositories
 {
     public interface IPresentationRepository
     {
-        List<Presentation> GetPresentations(int userId);
+        List<PresentationView> GetPresentations(int userId);
     }
 }
