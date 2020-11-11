@@ -78,5 +78,19 @@ namespace Repositories.Slides
                                          .ToList();
             }
         }
+
+        public Slide UpdateSlide(short slideId, SlideType type, List<SlideOption> slideOptions)
+        {
+            using (var context = GetContext())
+            {
+                var slide = context.Slides.Include(s => s.SlideOptions).SingleOrDefault(s => s.SlidetId == slideId);
+
+                if (slide == null)
+                {
+                    throw new NotFoundException(_slideDoesNotExist);
+                }
+
+            }
+        }
     }
 }

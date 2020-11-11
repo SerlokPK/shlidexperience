@@ -2,7 +2,7 @@
 {
     public class SlideOptionDto
     {
-        public short SlideOptionId { get; set; }
+        public short? SlideOptionId { get; set; }
 
         public string Text { get; set; }
     }

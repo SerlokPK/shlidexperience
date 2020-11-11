@@ -9,5 +9,6 @@ namespace Interfaces.Repositories
         short CreateSlide(int presentationId);
         List<Slide> GetSlides(int presentationId);
         Slide GetSlide(short slideId);
+        Slide UpdateSlide(short slideId, SlideType type, List<SlideOption> slideOptions);
     }
 }

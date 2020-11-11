@@ -23,6 +23,13 @@ namespace Services.Slides
             return _slideRepository.CreateSlide(presentationId);
         }
 
+        public SlideDto GetSlide(short slideId)
+        {
+            var slide = _slideRepository.GetSlide(slideId);
+
+            return _mapper.Map<SlideDto>(slide);
+        }
+
         public List<SlideDto> GetSlides(int presentationId)
         {
             var slides = _slideRepository.GetSlides(presentationId);

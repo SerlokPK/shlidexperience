@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.Helpers;
+using DtoModels.Slides.Request;
 using Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -28,12 +29,20 @@ namespace Api.Controllers
             return Ok(types);
         }
 
-        [HttpPut("{slideId}")]
-        public IActionResult GetTypes([FromRoute] short slideId)
+        [HttpGet("{slideId}")]
+        public IActionResult Get([FromRoute] short slideId)
         {
-            var types = _slideService.GetTypes();
+            var slide = _slideService.GetSlide(slideId);
 
-            return Ok(types);
+            return Ok(slide);
+        }
+
+        [HttpPut("{slideId}")]
+        public IActionResult Put([FromRoute] short slideId, [FromBody] EditSlideModel model)
+        {
+            var slide = _slideService.GetSlide(slideId);
+
+            return Ok(slide);
         }
     }
 }
