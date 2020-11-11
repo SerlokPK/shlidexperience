@@ -1,4 +1,5 @@
 ﻿using DomainModels.Presentations;
+using DomainModels.Slides;
 using System.Collections.Generic;
 
 namespace Interfaces.Repositories

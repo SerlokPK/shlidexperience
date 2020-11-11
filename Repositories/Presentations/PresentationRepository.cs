@@ -14,6 +14,8 @@ namespace Repositories.Presentations
 {
     public class PresentationRepository : BaseRepository, IPresentationRepository
     {
+        private const string _presentationDoesNotExist = "Presentation does not exist";
+
         private readonly IMapper _mapper;
 
         public PresentationRepository(IOptions<AppSettings> options, IMapper mapper) : base(options)
@@ -51,7 +53,7 @@ namespace Repositories.Presentations
                     return _mapper.Map<Presentation>(presentation);
                 }
 
-                throw new NotFoundException("Presentation does not exist");
+                throw new NotFoundException(_presentationDoesNotExist);
             }
         }
 
@@ -75,7 +77,7 @@ namespace Repositories.Presentations
                                           .SingleOrDefault(p => p.PresentationId == presentationId && p.UserId == userId);
                 if (presentation == null)
                 {
-                    throw new NotFoundException("Presentation does not exist");
+                    throw new NotFoundException(_presentationDoesNotExist);
                 }
 
                 presentation.Name = name;

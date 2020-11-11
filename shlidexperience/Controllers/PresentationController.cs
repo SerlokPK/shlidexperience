@@ -15,12 +15,15 @@ namespace Api.Controllers
     public class PresentationController : BaseController
     {
         private readonly IPresentationService _presentationService;
+        private readonly ISlideService _slideService;
 
-        public PresentationController(IOptions<AppSettings> options, IPresentationService presentationService) : base(options)
+        public PresentationController(IOptions<AppSettings> options, IPresentationService presentationService,
+                                        ISlideService slideService) : base(options)
         {
-            DependencyHelper.ThrowIfNull(presentationService);
+            DependencyHelper.ThrowIfNull(presentationService, slideService);
 
             _presentationService = presentationService;
+            _slideService = slideService;
         }
 
         [HttpGet]
@@ -57,6 +60,22 @@ namespace Api.Controllers
             _presentationService.UpdatePresentation(userId, model);
 
             return NoContent();
+        }
+
+        [HttpPost("{presentationId}/slides")]
+        public IActionResult CreateSlide([FromRoute] int presentationId)
+        {
+            var slideId = _slideService.CreateSlide(presentationId);
+
+            return Ok(slideId);
+        }
+
+        [HttpGet("{presentationId}/slides")]
+        public IActionResult GetSlides([FromRoute] short presentationId)
+        {
+            var slides = _slideService.GetSlides(presentationId);
+
+            return Ok(slides);
         }
     }
 }
