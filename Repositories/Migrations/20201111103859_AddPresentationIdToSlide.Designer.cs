@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.Data;
 
 namespace Repositories.Migrations
 {
     [DbContext(typeof(ShlidexperienceContext))]
-    partial class ShlidexperienceContextModelSnapshot : ModelSnapshot
+    [Migration("20201111103859_AddPresentationIdToSlide")]
+    partial class AddPresentationIdToSlide
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +53,7 @@ namespace Repositories.Migrations
                     b.Property<int>("PresentationId")
                         .HasColumnType("int");
 
-                    b.Property<short?>("SlideTypeId")
+                    b.Property<short>("SlideTypeId")
                         .HasColumnType("smallint");
 
                     b.HasKey("SlidetId");
@@ -190,7 +192,9 @@ namespace Repositories.Migrations
 
                     b.HasOne("Repositories.Data.SlideTypeEntity", "SlideType")
                         .WithMany()
-                        .HasForeignKey("SlideTypeId");
+                        .HasForeignKey("SlideTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Repositories.Data.SlideOptionEntity", b =>

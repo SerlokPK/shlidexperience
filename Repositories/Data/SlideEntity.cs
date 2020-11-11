@@ -10,8 +10,13 @@ namespace Repositories.Data
         [Key]
         public short SlidetId { get; set; }
 
+        public short? SlideTypeId { get; set; }
+
         [Required]
-        public short SlideTypeId { get; set; }
+        public int PresentationId { get; set; }
+
+        [ForeignKey("PresentationId")]
+        public virtual PresentationEntity Presentation { get; set; }
 
         [ForeignKey("SlideTypeId")]
         public virtual SlideTypeEntity SlideType { get; set; }

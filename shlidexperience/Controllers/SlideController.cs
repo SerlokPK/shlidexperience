@@ -24,5 +24,13 @@ namespace Api.Controllers
 
             return Ok(types);
         }
+
+        [HttpPost]
+        public IActionResult Post()
+        {
+            var types = _slideService.GetTypes();
+
+            return Ok(types);
+        }
     }
 }
