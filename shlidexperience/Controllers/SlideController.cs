@@ -40,7 +40,7 @@ namespace Api.Controllers
         [HttpPut("{slideId}")]
         public IActionResult Put([FromRoute] short slideId, [FromBody] EditSlideModel model)
         {
-            var slide = _slideService.GetSlide(slideId);
+            var slide = _slideService.EditSlide(model);
 
             return Ok(slide);
         }

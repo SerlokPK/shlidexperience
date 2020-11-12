@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DomainModels.Slides;
+using DtoModels.Slides.Request;
 using DtoModels.Slides.Response;
 using Interfaces.Repositories;
 using Interfaces.Services;
@@ -40,6 +41,13 @@ namespace Services.Slides
         public List<SlideType> GetTypes()
         {
             return _slideRepository.GetTypes();
+        }
+
+        public SlideDto EditSlide(EditSlideModel model)
+        {
+            var slide = _slideRepository.EditSlide(model.SlideId, model.Type, _mapper.Map<List<SlideOption>>(model.SlideOptions));
+
+            return _mapper.Map<SlideDto>(slide);
         }
     }
 }

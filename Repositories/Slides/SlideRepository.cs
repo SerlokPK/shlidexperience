@@ -79,7 +79,7 @@ namespace Repositories.Slides
             }
         }
 
-        public Slide UpdateSlide(short slideId, SlideType type, List<SlideOption> slideOptions)
+        public Slide EditSlide(short slideId, SlideType type, List<SlideOption> slideOptions)
         {
             using (var context = GetContext())
             {

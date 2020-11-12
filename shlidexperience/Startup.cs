@@ -94,6 +94,7 @@ namespace shlidexperience
             app.UseCors(RegisterAppCorsHelper.AppCorsPolicyName)
                .UseHttpsRedirection()
                .UseRouting()
+               .UseAuthentication()
                .UseAuthorization()
                .UseMiddleware<JwtMiddleware>()
                .UseEndpoints(endpoints =>
