@@ -20,6 +20,6 @@ namespace Repositories.Data
         [ForeignKey("UserId")]
         public virtual UserEntity User { get; set; }
 
-        public virtual IEnumerable<SlideEntity> Slides { get; set; } = new List<SlideEntity>();
+        public virtual ICollection<SlideEntity> Slides { get; set; } = new List<SlideEntity>();
     }
 }

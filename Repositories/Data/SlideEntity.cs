@@ -21,6 +21,6 @@ namespace Repositories.Data
         [ForeignKey("SlideTypeId")]
         public virtual SlideTypeEntity SlideType { get; set; }
 
-        public virtual IEnumerable<SlideOptionEntity> SlideOptions { get; set; } = new List<SlideOptionEntity>();
+        public virtual ICollection<SlideOptionEntity> SlideOptions { get; set; } = new List<SlideOptionEntity>();
     }
 }

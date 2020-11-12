@@ -50,7 +50,7 @@ namespace Repositories.Slides
             {
                 var slide = context.Slides.Include(s => s.SlideOptions).SingleOrDefault(s => s.SlidetId == slideId);
 
-                if(slide == null)
+                if (slide == null)
                 {
                     throw new NotFoundException(_slideDoesNotExist);
                 }
@@ -90,6 +90,40 @@ namespace Repositories.Slides
                     throw new NotFoundException(_slideDoesNotExist);
                 }
 
+                RemoveSlideOptions(slideOptions, slide.SlideOptions);
+                AddOrUpdateSlideOptions(slideOptions, slide.SlideOptions);
+
+                context.SaveChanges();
+
+                return _mapper.Map<Slide>(slide);
+            }
+        }
+
+        private void AddOrUpdateSlideOptions(List<SlideOption> slideOptions, ICollection<SlideOptionEntity> slideOptionEntities)
+        {
+            foreach (var option in slideOptions)
+            {
+                var optionEntity = slideOptionEntities.SingleOrDefault(x => x.SlideOptionId == option.SlideOptionId);
+                if (optionEntity != null)
+                {
+                    optionEntity.Text = option.Text;
+                }
+                else
+                {
+                    slideOptionEntities.Add(new SlideOptionEntity
+                    {
+                        Text = option.Text
+                    });
+                }
+            }
+        }
+
+        private void RemoveSlideOptions(List<SlideOption> slideOptions, ICollection<SlideOptionEntity> slideOptionEntities)
+        {
+            var optionsToRemove = slideOptionEntities.Where(x => !slideOptions.Any(s => s.SlideOptionId == x.SlideOptionId));
+            foreach (var option in optionsToRemove)
+            {
+                slideOptionEntities.Remove(option);
             }
         }
     }
