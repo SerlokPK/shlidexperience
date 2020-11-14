@@ -30,6 +30,7 @@ namespace Common.Helpers
 
         public static string GetIdClaim(string token)
         {
+            token = token.Replace("Bearer ", string.Empty);
             var jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
 
             return jwtToken.Claims.SingleOrDefault(c => _userId == c.Type)?.Value;
