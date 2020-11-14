@@ -40,7 +40,7 @@ namespace Repositories.Slides
 
                 context.SaveChanges();
 
-                return slideEntity.SlidetId;
+                return slideEntity.SlideId;
             }
         }
 
@@ -48,7 +48,7 @@ namespace Repositories.Slides
         {
             using (var context = GetContext())
             {
-                var slide = context.Slides.Include(s => s.SlideOptions).SingleOrDefault(s => s.SlidetId == slideId);
+                var slide = context.Slides.Include(s => s.SlideOptions).SingleOrDefault(s => s.SlideId == slideId);
 
                 if (slide == null)
                 {
@@ -83,7 +83,7 @@ namespace Repositories.Slides
         {
             using (var context = GetContext())
             {
-                var slide = context.Slides.Include(s => s.SlideOptions).SingleOrDefault(s => s.SlidetId == slideId);
+                var slide = context.Slides.Include(s => s.SlideOptions).SingleOrDefault(s => s.SlideId == slideId);
 
                 if (slide == null)
                 {

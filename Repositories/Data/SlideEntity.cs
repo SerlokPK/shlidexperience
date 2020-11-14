@@ -8,7 +8,7 @@ namespace Repositories.Data
     public class SlideEntity
     {
         [Key]
-        public short SlidetId { get; set; }
+        public short SlideId { get; set; }
 
         public short? SlideTypeId { get; set; }
 

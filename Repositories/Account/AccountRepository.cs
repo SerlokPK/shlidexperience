@@ -14,6 +14,8 @@ namespace Repositories.Account
 {
     public class AccountRepository : BaseRepository, IAccountRepository
     {
+        private const string _userDoesNotExist = "Invalid email or username";
+
         private readonly AppSettings _appSettings;
         private readonly IMapper _mapper;
 
@@ -56,7 +58,7 @@ namespace Repositories.Account
                 var user = context.Users.SingleOrDefault(x => x.Email == email);
                 if (user == null)
                 {
-                    throw new UnauthorizedException("Invalid email or username");
+                    throw new UnauthorizedException(_userDoesNotExist);
                 }
 
                 if (user.Status != UserStatus.Active.Status)
@@ -71,7 +73,7 @@ namespace Repositories.Account
                 var shaPassword = HashHelper.Hash(user.PasswordSalt + password);
                 if (!shaPassword.SequenceEqual(user.Password.ToArray()))
                 {
-                    throw new UnauthorizedException("Invalid email or username");
+                    throw new UnauthorizedException(_userDoesNotExist);
                 }
 
                 var userAuth = _mapper.Map<User>(user);

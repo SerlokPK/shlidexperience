@@ -5,7 +5,7 @@ using Repositories.Data;
 
 namespace Services.Mappings
 {
-    class SlideProfile : Profile
+    public class SlideProfile : Profile
     {
         public SlideProfile()
         {
