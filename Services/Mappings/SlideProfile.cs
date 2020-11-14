@@ -18,6 +18,8 @@ namespace Services.Mappings
             CreateMap<Slide, SlideDto>();
             CreateMap<SlideOptionEntity, SlideOption>();
             CreateMap<SlideOption, SlideDto>();
+            CreateMap<SlideOptionDto, SlideOption>();
+            CreateMap<SlideOption, SlideOptionDto>();
         }
     }
 }

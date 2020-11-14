@@ -10,7 +10,7 @@ namespace Interfaces.Services
         List<SlideType> GetTypes();
         short CreateSlide(int presentationId);
         List<SlideDto> GetSlides(int presentationId);
-        SlideDto GetSlide(short slideId);
+        SlideDto GetSlide(short slideId, int presentationId);
         SlideDto EditSlide(EditSlideModel model);
     }
 }

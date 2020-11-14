@@ -11,8 +11,11 @@ namespace DtoModels.Slides.Request
         public short SlideId { get; set; }
 
         [Required]
+        public int PresentationId { get; set; }
+
+        [Required]
         public SlideType Type { get; set; }
 
-        public List<SlideOptionDto> SlideOptions { get; set; }
+        public ICollection<SlideOptionDto> SlideOptions { get; set; } = new List<SlideOptionDto>();
     }
 }

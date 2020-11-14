@@ -44,11 +44,12 @@ namespace Repositories.Slides
             }
         }
 
-        public Slide GetSlide(short slideId)
+        public Slide GetSlide(short slideId, int presentationId)
         {
             using (var context = GetContext())
             {
-                var slide = context.Slides.Include(s => s.SlideOptions).SingleOrDefault(s => s.SlideId == slideId);
+                var slide = context.Slides.Include(s => s.SlideOptions)
+                                          .SingleOrDefault(s => s.SlideId == slideId && s.PresentationId == presentationId);
 
                 if (slide == null)
                 {
@@ -79,11 +80,12 @@ namespace Repositories.Slides
             }
         }
 
-        public Slide EditSlide(short slideId, SlideType type, List<SlideOption> slideOptions)
+        public Slide EditSlide(short slideId, int presentationId, SlideType type, List<SlideOption> slideOptions)
         {
             using (var context = GetContext())
             {
-                var slide = context.Slides.Include(s => s.SlideOptions).SingleOrDefault(s => s.SlideId == slideId);
+                var slide = context.Slides.Include(s => s.SlideOptions)
+                                          .SingleOrDefault(s => s.SlideId == slideId && s.PresentationId == presentationId);
 
                 if (slide == null)
                 {
@@ -120,7 +122,9 @@ namespace Repositories.Slides
 
         private void RemoveSlideOptions(List<SlideOption> slideOptions, ICollection<SlideOptionEntity> slideOptionEntities)
         {
-            var optionsToRemove = slideOptionEntities.Where(x => !slideOptions.Any(s => s.SlideOptionId == x.SlideOptionId));
+            var optionsToRemove = slideOptionEntities.Where(x => !slideOptions
+                                                     .Any(s => s.SlideOptionId == x.SlideOptionId))
+                                                     .ToList();
             foreach (var option in optionsToRemove)
             {
                 slideOptionEntities.Remove(option);

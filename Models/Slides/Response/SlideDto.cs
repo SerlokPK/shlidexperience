@@ -7,8 +7,8 @@ namespace DtoModels.Slides.Response
     {
         public short SlideId { get; set; }
 
-        public virtual SlideType SlideType { get; set; }
+        public SlideType SlideType { get; set; }
 
-        public virtual IEnumerable<SlideOptionDto> SlideOptions { get; set; } = new List<SlideOptionDto>();
+        public ICollection<SlideOptionDto> SlideOptions { get; set; } = new List<SlideOptionDto>();
     }
 }

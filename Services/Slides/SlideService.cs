@@ -24,9 +24,9 @@ namespace Services.Slides
             return _slideRepository.CreateSlide(presentationId);
         }
 
-        public SlideDto GetSlide(short slideId)
+        public SlideDto GetSlide(short slideId, int presentationId)
         {
-            var slide = _slideRepository.GetSlide(slideId);
+            var slide = _slideRepository.GetSlide(slideId, presentationId);
 
             return _mapper.Map<SlideDto>(slide);
         }
@@ -45,7 +45,7 @@ namespace Services.Slides
 
         public SlideDto EditSlide(EditSlideModel model)
         {
-            var slide = _slideRepository.EditSlide(model.SlideId, model.Type, _mapper.Map<List<SlideOption>>(model.SlideOptions));
+            var slide = _slideRepository.EditSlide(model.SlideId, model.PresentationId, model.Type, _mapper.Map<List<SlideOption>>(model.SlideOptions));
 
             return _mapper.Map<SlideDto>(slide);
         }
