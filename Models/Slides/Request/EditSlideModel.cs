@@ -14,6 +14,9 @@ namespace DtoModels.Slides.Request
         public int PresentationId { get; set; }
 
         [Required]
+        public string Question { get; set; }
+
+        [Required]
         public SlideType Type { get; set; }
 
         public ICollection<SlideOptionDto> SlideOptions { get; set; } = new List<SlideOptionDto>();

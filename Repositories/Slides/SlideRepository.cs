@@ -80,7 +80,7 @@ namespace Repositories.Slides
             }
         }
 
-        public Slide EditSlide(short slideId, int presentationId, SlideType type, List<SlideOption> slideOptions)
+        public Slide EditSlide(short slideId, int presentationId, string question, SlideType type, List<SlideOption> slideOptions)
         {
             using (var context = GetContext())
             {
@@ -92,12 +92,26 @@ namespace Repositories.Slides
                     throw new NotFoundException(_slideDoesNotExist);
                 }
 
+                UpdateSlide(question, type, slide);
                 RemoveSlideOptions(slideOptions, slide.SlideOptions);
                 AddOrUpdateSlideOptions(slideOptions, slide.SlideOptions);
 
                 context.SaveChanges();
 
                 return _mapper.Map<Slide>(slide);
+            }
+        }
+
+        private void UpdateSlide(string question, SlideType type, SlideEntity slide)
+        {
+            if(question != slide.Question)
+            {
+                slide.Question = question;
+            }
+
+            if(type != (SlideType)slide.SlideTypeId)
+            {
+                slide.SlideTypeId = (short)type;
             }
         }
 
