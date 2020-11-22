@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20201111104143_SlideTypeMotRequired.cs" />
     <Compile Remove="Migrations\20201111104143_SlideTypeMotRequired.Designer.cs" />
+    <Compile Remove="Migrations\20201122103325_SlideOptionIdGuid.cs" />
+    <Compile Remove="Migrations\20201122103325_SlideOptionIdGuid.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
