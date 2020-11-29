@@ -7,6 +7,7 @@ using Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Repositories.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,7 +33,8 @@ namespace Repositories.Presentations
                 var presentation = new PresentationEntity
                 {
                     Name = name,
-                    UserId = userId
+                    UserId = userId,
+                    Created = DateTime.Now
                 };
                 var presentationEntity = context.Add(presentation).Entity;
 
