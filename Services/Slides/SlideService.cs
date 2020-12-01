@@ -45,7 +45,7 @@ namespace Services.Slides
 
         public SlideDto EditSlide(EditSlideModel model)
         {
-            var slide = _slideRepository.EditSlide(model.SlideId, model.PresentationId, model.Question, model.Type, _mapper.Map<List<SlideOption>>(model.SlideOptions));
+            var slide = _slideRepository.EditSlide(model.SlideId, model.PresentationId, model.Question, model.SlideType, _mapper.Map<List<SlideOption>>(model.SlideOptions));
 
             return _mapper.Map<SlideDto>(slide);
         }

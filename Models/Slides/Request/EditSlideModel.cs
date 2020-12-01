@@ -2,6 +2,7 @@
 using DtoModels.Slides.Response;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DtoModels.Slides.Request
 {
@@ -17,7 +18,8 @@ namespace DtoModels.Slides.Request
         public string Question { get; set; }
 
         [Required]
-        public SlideType Type { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public SlideType SlideType { get; set; }
 
         public ICollection<SlideOptionDto> SlideOptions { get; set; } = new List<SlideOptionDto>();
     }
