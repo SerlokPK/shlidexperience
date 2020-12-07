@@ -14,7 +14,8 @@ namespace Services.Mappings
 
         private void ConfigureMappings()
         {
-            CreateMap<SlideEntity, Slide>();
+            CreateMap<SlideEntity, Slide>()
+               .ForMember(dest => dest.SlideType, opt => opt.MapFrom(x => (SlideType)x.SlideTypeId));
             CreateMap<Slide, SlideDto>();
             CreateMap<SlideOptionEntity, SlideOption>();
             CreateMap<SlideOption, SlideDto>();

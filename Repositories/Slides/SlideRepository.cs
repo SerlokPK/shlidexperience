@@ -23,7 +23,7 @@ namespace Repositories.Slides
             _mapper = mapper;
         }
 
-        public short CreateSlide(int presentationId)
+        public Slide CreateSlide(int presentationId)
         {
             using (var context = GetContext())
             {
@@ -41,7 +41,7 @@ namespace Repositories.Slides
 
                 context.SaveChanges();
 
-                return slideEntity.SlideId;
+                return _mapper.Map<Slide>(slideEntity);
             }
         }
 
@@ -66,6 +66,7 @@ namespace Repositories.Slides
             using (var context = GetContext())
             {
                 var slides = context.Slides
+                                    .Include(s => s.SlideOptions)
                                     .Where(s => s.PresentationId == presentationId);
 
                 return _mapper.Map<List<Slide>>(slides);

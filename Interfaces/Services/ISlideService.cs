@@ -8,7 +8,7 @@ namespace Interfaces.Services
     public interface ISlideService
     {
         List<SlideType> GetTypes();
-        short CreateSlide(int presentationId);
+        SlideDto CreateSlide(int presentationId);
         List<SlideDto> GetSlides(int presentationId);
         SlideDto GetSlide(short slideId, int presentationId);
         SlideDto EditSlide(EditSlideModel model);

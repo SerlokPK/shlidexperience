@@ -2,7 +2,7 @@
 {
     public enum SlideType
     {
-        MultipleChoice,
-        ReactionQuestion
+        MultipleChoice = 1,
+        ReactionQuestion = 2
     }
 }
