@@ -10,12 +10,12 @@ namespace Repositories.Data
         [Key]
         public short SlideId { get; set; }
 
-        public short? SlideTypeId { get; set; }
+        [Required]
+        public short SlideTypeId { get; set; }
 
         [Required]
         public int PresentationId { get; set; }
 
-        [Required]
         public string Question { get; set; }
 
         [ForeignKey("PresentationId")]

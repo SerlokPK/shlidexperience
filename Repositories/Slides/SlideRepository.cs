@@ -34,7 +34,8 @@ namespace Repositories.Slides
 
                 var slide = new SlideEntity
                 {
-                    PresentationId = presentationId
+                    PresentationId = presentationId,
+                    SlideTypeId = (short)SlideType.MultipleChoice
                 };
                 var slideEntity = context.Add(slide).Entity;
 
