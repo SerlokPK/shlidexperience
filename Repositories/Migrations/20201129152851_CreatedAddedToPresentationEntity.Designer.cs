@@ -3,19 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.Data;
 
 namespace Repositories.Migrations
 {
     [DbContext(typeof(ShlidexperienceContext))]
-    partial class ShlidexperienceContextModelSnapshot : ModelSnapshot
+    [Migration("20201129152851_CreatedAddedToPresentationEntity")]
+    partial class CreatedAddedToPresentationEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.10")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -55,9 +57,10 @@ namespace Repositories.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Question")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<short>("SlideTypeId")
+                    b.Property<short?>("SlideTypeId")
                         .HasColumnType("smallint");
 
                     b.HasKey("SlideId");
@@ -195,9 +198,7 @@ namespace Repositories.Migrations
 
                     b.HasOne("Repositories.Data.SlideTypeEntity", "SlideType")
                         .WithMany()
-                        .HasForeignKey("SlideTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SlideTypeId");
                 });
 
             modelBuilder.Entity("Repositories.Data.SlideOptionEntity", b =>

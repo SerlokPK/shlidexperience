@@ -8,14 +8,22 @@ namespace Repositories.Data
     public class SlideEntity
     {
         [Key]
-        public short SlidetId { get; set; }
+        public short SlideId { get; set; }
 
         [Required]
         public short SlideTypeId { get; set; }
 
+        [Required]
+        public int PresentationId { get; set; }
+
+        public string Question { get; set; }
+
+        [ForeignKey("PresentationId")]
+        public virtual PresentationEntity Presentation { get; set; }
+
         [ForeignKey("SlideTypeId")]
         public virtual SlideTypeEntity SlideType { get; set; }
 
-        public virtual IEnumerable<SlideOptionEntity> SlideOptions { get; set; } = new List<SlideOptionEntity>();
+        public virtual ICollection<SlideOptionEntity> SlideOptions { get; set; } = new List<SlideOptionEntity>();
     }
 }

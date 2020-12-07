@@ -7,6 +7,7 @@ using Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Repositories.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +15,8 @@ namespace Repositories.Presentations
 {
     public class PresentationRepository : BaseRepository, IPresentationRepository
     {
+        private const string _presentationDoesNotExist = "Presentation does not exist";
+
         private readonly IMapper _mapper;
 
         public PresentationRepository(IOptions<AppSettings> options, IMapper mapper) : base(options)
@@ -30,7 +33,8 @@ namespace Repositories.Presentations
                 var presentation = new PresentationEntity
                 {
                     Name = name,
-                    UserId = userId
+                    UserId = userId,
+                    Created = DateTime.Now
                 };
                 var presentationEntity = context.Add(presentation).Entity;
 
@@ -51,7 +55,7 @@ namespace Repositories.Presentations
                     return _mapper.Map<Presentation>(presentation);
                 }
 
-                throw new NotFoundException("Presentation does not exist");
+                throw new NotFoundException(_presentationDoesNotExist);
             }
         }
 
@@ -75,7 +79,7 @@ namespace Repositories.Presentations
                                           .SingleOrDefault(p => p.PresentationId == presentationId && p.UserId == userId);
                 if (presentation == null)
                 {
-                    throw new NotFoundException("Presentation does not exist");
+                    throw new NotFoundException(_presentationDoesNotExist);
                 }
 
                 presentation.Name = name;

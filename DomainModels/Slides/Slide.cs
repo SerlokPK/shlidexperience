@@ -6,8 +6,10 @@ namespace DomainModels.Slides
     {
         public short SlideId { get; set; }
 
-        public virtual SlideType SlideType { get; set; }
+        public SlideType SlideType { get; set; }
 
-        public virtual IEnumerable<SlideOption> SlideOptions { get; set; } = new List<SlideOption>();
+        public string Question { get; set; }
+
+        public ICollection<SlideOption> SlideOptions { get; set; } = new List<SlideOption>();
     }
 }

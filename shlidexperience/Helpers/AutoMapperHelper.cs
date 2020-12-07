@@ -10,6 +10,8 @@ namespace shlidexperience.Helpers
         {
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddAutoMapper(a => a.AddProfile<UserProfile>(), typeof(Startup));
+            services.AddAutoMapper(a => a.AddProfile<PresentationProfile>(), typeof(Startup));
+            services.AddAutoMapper(a => a.AddProfile<SlideProfile>(), typeof(Startup));
 
             return services;
         }

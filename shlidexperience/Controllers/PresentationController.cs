@@ -1,6 +1,7 @@
 ﻿using Common;
 using Common.Helpers;
 using DtoModels.Presentations.Request;
+using DtoModels.Slides.Request;
 using Interfaces.Services;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,15 @@ namespace Api.Controllers
     public class PresentationController : BaseController
     {
         private readonly IPresentationService _presentationService;
+        private readonly ISlideService _slideService;
 
-        public PresentationController(IOptions<AppSettings> options, IPresentationService presentationService) : base(options)
+        public PresentationController(IOptions<AppSettings> options, IPresentationService presentationService,
+                                        ISlideService slideService) : base(options)
         {
-            DependencyHelper.ThrowIfNull(presentationService);
+            DependencyHelper.ThrowIfNull(presentationService, slideService);
 
             _presentationService = presentationService;
+            _slideService = slideService;
         }
 
         [HttpGet]
@@ -57,6 +61,38 @@ namespace Api.Controllers
             _presentationService.UpdatePresentation(userId, model);
 
             return NoContent();
+        }
+
+        [HttpPost("{presentationId}/slides")]
+        public IActionResult CreateSlide([FromRoute] int presentationId)
+        {
+            var slideId = _slideService.CreateSlide(presentationId);
+
+            return Ok(slideId);
+        }
+
+        [HttpGet("{presentationId}/slides")]
+        public IActionResult GetSlides([FromRoute] short presentationId)
+        {
+            var slides = _slideService.GetSlides(presentationId);
+
+            return Ok(slides);
+        }
+
+        [HttpGet("{presentationId}/slides/{slideId}")]
+        public IActionResult GetSlide([FromRoute] short slideId, [FromRoute] int presentationId)
+        {
+            var slide = _slideService.GetSlide(slideId, presentationId);
+
+            return Ok(slide);
+        }
+
+        [HttpPut("{presentationId}/slides/{slideId}")]
+        public IActionResult EditSlide([FromRoute] short slideId, [FromRoute] int presentationId, [FromBody] EditSlideModel model)
+        {
+            var slide = _slideService.EditSlide(model);
+
+            return Ok(slide);
         }
     }
 }

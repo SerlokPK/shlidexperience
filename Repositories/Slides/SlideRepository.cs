@@ -1,0 +1,150 @@
+﻿using AutoMapper;
+using Common;
+using DomainModels.Exceptions;
+using DomainModels.Slides;
+using Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Repositories.Data;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Repositories.Slides
+{
+    public class SlideRepository : BaseRepository, ISlideRepository
+    {
+        private const string _presentationDoesNotExist = "Presentation does not exist";
+        private const string _slideDoesNotExist = "Slide does not exist";
+
+        private readonly IMapper _mapper;
+
+        public SlideRepository(IOptions<AppSettings> config, IMapper mapper) : base(config)
+        {
+            _mapper = mapper;
+        }
+
+        public Slide CreateSlide(int presentationId)
+        {
+            using (var context = GetContext())
+            {
+                if (!context.Presentations.Any(p => p.PresentationId == presentationId))
+                {
+                    throw new NotFoundException(_presentationDoesNotExist);
+                }
+
+                var slide = new SlideEntity
+                {
+                    PresentationId = presentationId,
+                    SlideTypeId = (short)SlideType.MultipleChoice
+                };
+                var slideEntity = context.Add(slide).Entity;
+
+                context.SaveChanges();
+
+                return _mapper.Map<Slide>(slideEntity);
+            }
+        }
+
+        public Slide GetSlide(short slideId, int presentationId)
+        {
+            using (var context = GetContext())
+            {
+                var slide = context.Slides.Include(s => s.SlideOptions)
+                                          .SingleOrDefault(s => s.SlideId == slideId && s.PresentationId == presentationId);
+
+                if (slide == null)
+                {
+                    throw new NotFoundException(_slideDoesNotExist);
+                }
+
+                return _mapper.Map<Slide>(slide);
+            }
+        }
+
+        public List<Slide> GetSlides(int presentationId)
+        {
+            using (var context = GetContext())
+            {
+                var slides = context.Slides
+                                    .Include(s => s.SlideOptions)
+                                    .Where(s => s.PresentationId == presentationId);
+
+                return _mapper.Map<List<Slide>>(slides);
+            }
+        }
+
+        public List<SlideType> GetTypes()
+        {
+            using (var context = GetContext())
+            {
+                return context.SlideTypes.Select(x => x.Type)
+                                         .ToList();
+            }
+        }
+
+        public Slide EditSlide(short slideId, int presentationId, string question, SlideType type, List<SlideOption> slideOptions)
+        {
+            using (var context = GetContext())
+            {
+                var slide = context.Slides.Include(s => s.SlideOptions)
+                                          .SingleOrDefault(s => s.SlideId == slideId && s.PresentationId == presentationId);
+
+                if (slide == null)
+                {
+                    throw new NotFoundException(_slideDoesNotExist);
+                }
+
+                UpdateSlide(question, type, slide);
+                RemoveSlideOptions(slideOptions, slide.SlideOptions);
+                AddOrUpdateSlideOptions(slideOptions, slide.SlideOptions);
+
+                context.SaveChanges();
+
+                return _mapper.Map<Slide>(slide);
+            }
+        }
+
+        private void UpdateSlide(string question, SlideType type, SlideEntity slide)
+        {
+            if(question != slide.Question)
+            {
+                slide.Question = question;
+            }
+
+            if(type != (SlideType)slide.SlideTypeId)
+            {
+                slide.SlideTypeId = (short)type;
+            }
+        }
+
+        private void AddOrUpdateSlideOptions(List<SlideOption> slideOptions, ICollection<SlideOptionEntity> slideOptionEntities)
+        {
+            foreach (var option in slideOptions)
+            {
+                var optionEntity = slideOptionEntities.SingleOrDefault(x => x.SlideOptionId == option.SlideOptionId);
+                if (optionEntity != null)
+                {
+                    optionEntity.Text = option.Text;
+                }
+                else
+                {
+                    slideOptionEntities.Add(new SlideOptionEntity
+                    {
+                        Text = option.Text
+                    });
+                }
+            }
+        }
+
+        private void RemoveSlideOptions(List<SlideOption> slideOptions, ICollection<SlideOptionEntity> slideOptionEntities)
+        {
+            var optionsToRemove = slideOptionEntities.Where(x => !slideOptions
+                                                     .Any(s => s.SlideOptionId == x.SlideOptionId))
+                                                     .ToList();
+            foreach (var option in optionsToRemove)
+            {
+                slideOptionEntities.Remove(option);
+            }
+        }
+    }
+}

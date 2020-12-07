@@ -9,6 +9,6 @@ namespace DomainModels.Presentations
 
         public string Name { get; set; }
 
-        public virtual IEnumerable<Slide> Slides { get; set; } = new List<Slide>();
+        public virtual ICollection<Slide> Slides { get; set; } = new List<Slide>();
     }
 }

@@ -3,19 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.Data;
 
 namespace Repositories.Migrations
 {
     [DbContext(typeof(ShlidexperienceContext))]
-    partial class ShlidexperienceContextModelSnapshot : ModelSnapshot
+    [Migration("20201111103859_AddPresentationIdToSlide")]
+    partial class AddPresentationIdToSlide
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.10")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -25,9 +27,6 @@ namespace Repositories.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -46,7 +45,7 @@ namespace Repositories.Migrations
 
             modelBuilder.Entity("Repositories.Data.SlideEntity", b =>
                 {
-                    b.Property<short>("SlideId")
+                    b.Property<short>("SlidetId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("smallint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -54,13 +53,10 @@ namespace Repositories.Migrations
                     b.Property<int>("PresentationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Question")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<short>("SlideTypeId")
                         .HasColumnType("smallint");
 
-                    b.HasKey("SlideId");
+                    b.HasKey("SlidetId");
 
                     b.HasIndex("PresentationId");
 
@@ -71,9 +67,10 @@ namespace Repositories.Migrations
 
             modelBuilder.Entity("Repositories.Data.SlideOptionEntity", b =>
                 {
-                    b.Property<Guid>("SlideOptionId")
+                    b.Property<short>("SlideOptionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("smallint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<short>("SlideId")
                         .HasColumnType("smallint");

@@ -4,15 +4,13 @@ namespace DomainModels.Presentations
 {
     public static class PresentationPath
     {
-        public static string Path = nameof(Presentation);
-
         public static class SlidePath
         {
-            public static string Path = $"{nameof(Presentation)}s.{nameof(Slide)}s";
+            public static string Path = $"{nameof(Presentation.Slides)}";
 
             public static class SlideOptionPath
             {
-                public static string Path = $"{nameof(Presentation)}s.{nameof(Slide)}s.{nameof(SlideOption)}s";
+                public static string Path = $"{nameof(Presentation.Slides)}.{nameof(Slide.SlideOptions)}";
             }
         }
     }

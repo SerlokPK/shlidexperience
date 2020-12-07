@@ -1,5 +1,6 @@
 ﻿using DomainModels.Slides;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace DtoModels.Slides.Response
 {
@@ -7,8 +8,11 @@ namespace DtoModels.Slides.Response
     {
         public short SlideId { get; set; }
 
-        public virtual SlideType SlideType { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public SlideType SlideType { get; set; }
 
-        public virtual IEnumerable<SlideOptionDto> SlideOptions { get; set; } = new List<SlideOptionDto>();
+        public string Question { get; set; }
+
+        public ICollection<SlideOptionDto> SlideOptions { get; set; } = new List<SlideOptionDto>();
     }
 }

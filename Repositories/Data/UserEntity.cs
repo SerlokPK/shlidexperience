@@ -49,6 +49,6 @@ namespace Repositories.Data
 
         public DateTime? LastLogin { get; set; }
 
-        public virtual IEnumerable<PresentationEntity> Presentations { get; set; } = new List<PresentationEntity>();
+        public virtual ICollection<PresentationEntity> Presentations { get; set; } = new List<PresentationEntity>();
     }
 }

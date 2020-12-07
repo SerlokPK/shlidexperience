@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repositories.Data
@@ -7,7 +8,7 @@ namespace Repositories.Data
     public class SlideOptionEntity
     {
         [Key]
-        public short SlideOptionId { get; set; }
+        public Guid SlideOptionId { get; set; }
 
         [Required]
         public short SlideId { get; set; }

@@ -1,8 +1,10 @@
-﻿namespace DomainModels.Slides
+﻿using System;
+
+namespace DomainModels.Slides
 {
     public class SlideOption
     {
-        public short SlideOptionId { get; set; }
+        public Guid SlideOptionId { get; set; }
 
         public string Text { get; set; }
     }
