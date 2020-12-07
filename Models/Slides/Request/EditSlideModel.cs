@@ -14,7 +14,6 @@ namespace DtoModels.Slides.Request
         [Required]
         public int PresentationId { get; set; }
 
-        [Required]
         public string Question { get; set; }
 
         [Required]
