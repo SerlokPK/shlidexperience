@@ -8,6 +8,8 @@ namespace DomainModels.Slides
 
         public SlideType SlideType { get; set; }
 
+        public string Question { get; set; }
+
         public ICollection<SlideOption> SlideOptions { get; set; } = new List<SlideOption>();
     }
 }

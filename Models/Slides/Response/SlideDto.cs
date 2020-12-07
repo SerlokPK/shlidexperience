@@ -11,6 +11,8 @@ namespace DtoModels.Slides.Response
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public SlideType SlideType { get; set; }
 
+        public string Question { get; set; }
+
         public ICollection<SlideOptionDto> SlideOptions { get; set; } = new List<SlideOptionDto>();
     }
 }
