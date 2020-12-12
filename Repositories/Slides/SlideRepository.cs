@@ -124,7 +124,10 @@ namespace Repositories.Slides
                 var optionEntity = slideOptionEntities.SingleOrDefault(x => x.SlideOptionId == option.SlideOptionId);
                 if (optionEntity != null)
                 {
-                    optionEntity.Text = option.Text;
+                    if(optionEntity.Text != option.Text)
+                    {
+                        optionEntity.Text = option.Text;
+                    }
                 }
                 else
                 {
