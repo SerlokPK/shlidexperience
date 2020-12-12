@@ -16,6 +16,7 @@ namespace Repositories.Data
         [Required]
         public int PresentationId { get; set; }
 
+        [StringLength(50)]
         public string Question { get; set; }
 
         [ForeignKey("PresentationId")]

@@ -94,5 +94,13 @@ namespace Api.Controllers
 
             return Ok(slide);
         }
+
+        [HttpDelete("{presentationId}/slides/{slideId}")]
+        public IActionResult RemoveSlide([FromRoute] short slideId, [FromRoute] int presentationId)
+        {
+            _slideService.DeleteSlide(slideId, presentationId);
+
+            return NoContent();
+        }
     }
 }

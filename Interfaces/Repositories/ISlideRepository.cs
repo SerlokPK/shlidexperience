@@ -10,5 +10,6 @@ namespace Interfaces.Repositories
         List<Slide> GetSlides(int presentationId);
         Slide GetSlide(short slideId, int presentationId);
         Slide EditSlide(short slideId, int presentationId, string question, SlideType type, List<SlideOption> slideOptions);
+        void DeleteSlide(short slideId, int presentationId);
     }
 }

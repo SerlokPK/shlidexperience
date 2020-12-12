@@ -45,6 +45,21 @@ namespace Repositories.Slides
             }
         }
 
+        public void DeleteSlide(short slideId, int presentationId)
+        {
+            using (var context = GetContext())
+            {
+                var slide = context.Slides.SingleOrDefault(s => s.SlideId == slideId && s.PresentationId == presentationId);
+                if (slide == null)
+                {
+                    throw new NotFoundException(_slideDoesNotExist);
+                }
+
+                context.Slides.Remove(slide);
+                context.SaveChanges();
+            }
+        }
+
         public Slide GetSlide(short slideId, int presentationId)
         {
             using (var context = GetContext())
@@ -124,7 +139,10 @@ namespace Repositories.Slides
                 var optionEntity = slideOptionEntities.SingleOrDefault(x => x.SlideOptionId == option.SlideOptionId);
                 if (optionEntity != null)
                 {
-                    optionEntity.Text = option.Text;
+                    if(optionEntity.Text != option.Text)
+                    {
+                        optionEntity.Text = option.Text;
+                    }
                 }
                 else
                 {
