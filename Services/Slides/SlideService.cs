@@ -51,5 +51,10 @@ namespace Services.Slides
 
             return _mapper.Map<SlideDto>(slide);
         }
+
+        public void DeleteSlide(short slideId, int presentationId)
+        {
+            _slideRepository.DeleteSlide(slideId, presentationId);
+        }
     }
 }

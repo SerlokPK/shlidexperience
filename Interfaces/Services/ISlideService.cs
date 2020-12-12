@@ -12,5 +12,6 @@ namespace Interfaces.Services
         List<SlideDto> GetSlides(int presentationId);
         SlideDto GetSlide(short slideId, int presentationId);
         SlideDto EditSlide(EditSlideModel model);
+        void DeleteSlide(short slideId, int presentationId);
     }
 }

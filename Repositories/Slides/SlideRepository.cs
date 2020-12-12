@@ -45,6 +45,21 @@ namespace Repositories.Slides
             }
         }
 
+        public void DeleteSlide(short slideId, int presentationId)
+        {
+            using (var context = GetContext())
+            {
+                var slide = context.Slides.SingleOrDefault(s => s.SlideId == slideId && s.PresentationId == presentationId);
+                if (slide == null)
+                {
+                    throw new NotFoundException(_slideDoesNotExist);
+                }
+
+                context.Slides.Remove(slide);
+                context.SaveChanges();
+            }
+        }
+
         public Slide GetSlide(short slideId, int presentationId)
         {
             using (var context = GetContext())
