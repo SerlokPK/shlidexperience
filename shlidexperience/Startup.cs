@@ -38,7 +38,8 @@ namespace shlidexperience
                     .RegisterAppRepositories()
                     .AddDbContext<ShlidexperienceContext>(options =>
                                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
-                    .RegisterAutoMapper();
+                    .RegisterAutoMapper()
+                    .AddSignalR();
 
 
             services.AddSwaggerGen(s =>
@@ -101,6 +102,7 @@ namespace shlidexperience
                .UseEndpoints(endpoints =>
                {
                    endpoints.MapControllers();
+                   //endpoints.MapHub<>(); map signalr
                });
         }
     }
