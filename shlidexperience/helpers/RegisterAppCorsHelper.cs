@@ -17,6 +17,7 @@ namespace shlidexperience.helpers
                     builder.WithOrigins(urls);
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
+                    builder.AllowCredentials();
                 });
             });
             return services;
