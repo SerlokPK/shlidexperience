@@ -14,9 +14,9 @@ namespace shlidexperience.helpers
                 options.AddPolicy(AppCorsPolicyName,
                 builder =>
                 {
+                    builder.WithOrigins(urls);
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
-                    builder.AllowAnyOrigin();
                 });
             });
             return services;
