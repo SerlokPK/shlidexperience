@@ -19,11 +19,16 @@ namespace Repositories.Data
 
         public DbSet<SlideOptionEntity> SlideOptions { get; set; }
 
+        public DbSet<OptionResultEntity> OptionResults { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SlideTypeEntity>()
                         .HasData(new SlideTypeEntity { SlideTypeId = 1, Type = SlideType.MultipleChoice },
                                  new SlideTypeEntity { SlideTypeId = 2, Type = SlideType.ReactionQuestion });
+
+            modelBuilder.Entity<OptionResultEntity>()
+                .HasKey(c => new { c.SlideId, c.SlideOptionId });
         }
     }
 }

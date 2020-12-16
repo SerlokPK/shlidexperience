@@ -6,9 +6,9 @@ namespace SignalR
     {
         private readonly string _receiveResult = "receiveResult";
 
-        public async Task ReceiveResult(string result)
+        public async Task ShareResult(string result)
         {
-            await SendToCaller(result, _receiveResult);
+            await BroadcastMessage(result, _receiveResult);
         }
     }
 }
