@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Interfaces.SignalR;
+using System.Threading.Tasks;
 
 namespace SignalR
 {
