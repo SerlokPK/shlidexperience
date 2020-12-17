@@ -2,6 +2,7 @@
 using Common;
 using DomainModels.Exceptions;
 using DomainModels.Slides;
+using DtoModels.Slides.Filters;
 using Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -76,13 +77,15 @@ namespace Repositories.Slides
             }
         }
 
-        public List<Slide> GetSlides(int presentationId)
+        public List<Slide> GetSlides(int presentationId, SlideFilter filter)
         {
             using (var context = GetContext())
             {
                 var slides = context.Slides
                                     .Include(s => s.SlideOptions)
                                     .Where(s => s.PresentationId == presentationId);
+
+                slides = ApplySlideFilter(slides, filter);
 
                 return _mapper.Map<List<Slide>>(slides);
             }
@@ -121,12 +124,12 @@ namespace Repositories.Slides
 
         private void UpdateSlide(string question, SlideType type, SlideEntity slide)
         {
-            if(question != slide.Question)
+            if (question != slide.Question)
             {
                 slide.Question = question;
             }
 
-            if(type != (SlideType)slide.SlideTypeId)
+            if (type != (SlideType)slide.SlideTypeId)
             {
                 slide.SlideTypeId = (short)type;
             }
@@ -139,7 +142,7 @@ namespace Repositories.Slides
                 var optionEntity = slideOptionEntities.SingleOrDefault(x => x.SlideOptionId == option.SlideOptionId);
                 if (optionEntity != null)
                 {
-                    if(optionEntity.Text != option.Text)
+                    if (optionEntity.Text != option.Text)
                     {
                         optionEntity.Text = option.Text;
                     }
@@ -163,6 +166,17 @@ namespace Repositories.Slides
             {
                 slideOptionEntities.Remove(option);
             }
+        }
+
+        private IQueryable<SlideEntity> ApplySlideFilter(IQueryable<SlideEntity> entities, SlideFilter filter)
+        {
+            if (filter?.ItemsToSkip != null)
+            {
+                entities.Skip(filter.ItemsToSkip.Value)
+                    .Take(1);
+            }
+
+            return entities;
         }
     }
 }

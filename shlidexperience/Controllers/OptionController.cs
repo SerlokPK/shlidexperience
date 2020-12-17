@@ -18,6 +18,8 @@ namespace Api.Controllers
         public OptionController(IOptions<AppSettings> options, IOptionService optionService) : base(options)
         {
             DependencyHelper.ThrowIfNull(optionService);
+
+            _optionService = optionService;
         }
 
         [HttpPost]

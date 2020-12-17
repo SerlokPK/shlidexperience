@@ -1,5 +1,6 @@
 ﻿using Interfaces.Repositories;
 using Interfaces.Services;
+using Interfaces.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Repositories.Account;
 using Repositories.Options;
@@ -12,6 +13,7 @@ using Services.Options;
 using Services.Presentations;
 using Services.Slides;
 using Services.UserSer;
+using SignalR;
 
 namespace shlidexperience.helpers
 {
@@ -25,6 +27,7 @@ namespace shlidexperience.helpers
             services.AddScoped<IPresentationService, PresentationService>();
             services.AddScoped<ISlideService, SlideService>();
             services.AddScoped<IOptionService, OptionService>();
+            services.AddScoped<IVotingHubClient, VotingHub>();
 
             return services;
         }
