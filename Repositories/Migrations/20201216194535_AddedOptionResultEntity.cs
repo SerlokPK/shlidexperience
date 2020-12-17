@@ -29,13 +29,13 @@ namespace Repositories.Migrations
                         column: x => x.SlideOptionId,
                         principalTable: "SlideOptions",
                         principalColumn: "SlideOptionId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OptionResults_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

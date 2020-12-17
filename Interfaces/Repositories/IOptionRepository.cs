@@ -1,7 +1,9 @@
-﻿namespace Interfaces.Repositories
+﻿using System;
+
+namespace Interfaces.Repositories
 {
     public interface IOptionRepository
     {
-        void VoteOnOption();
+        void SaveOptionResult(short slideId, Guid optionId, int userId);
     }
 }

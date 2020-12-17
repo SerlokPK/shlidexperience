@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Interfaces.SignalR
 {
     public interface IVotingHubClient
     {
-        Task ShareResult(string result);
+        Task ShareResult(Guid optionId);
     }
 }

@@ -29,6 +29,14 @@ namespace Repositories.Data
 
             modelBuilder.Entity<OptionResultEntity>()
                 .HasKey(c => new { c.SlideId, c.SlideOptionId });
+            modelBuilder.Entity<OptionResultEntity>()
+                .HasOne(o => o.SlideOption)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<OptionResultEntity>()
+                .HasOne(o => o.User)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

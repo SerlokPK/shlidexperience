@@ -19,6 +19,9 @@ namespace Repositories.Data
         [StringLength(50)]
         public string Question { get; set; }
 
+        [Required]
+        public bool Answered { get; set; }
+
         [ForeignKey("PresentationId")]
         public virtual PresentationEntity Presentation { get; set; }
 

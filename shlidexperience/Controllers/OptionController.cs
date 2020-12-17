@@ -1,7 +1,11 @@
 ﻿using Common;
+using Common.Helpers;
+using DtoModels.Options.Request;
+using Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using shlidexperience.Controllers;
+using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -9,9 +13,20 @@ namespace Api.Controllers
     [Authorize]
     public class OptionController : BaseController
     {
-        public OptionController(IOptions<AppSettings> options) : base(options)
+        private readonly IOptionService _optionService;
+
+        public OptionController(IOptions<AppSettings> options, IOptionService optionService) : base(options)
         {
-            
+            DependencyHelper.ThrowIfNull(optionService);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveOptionResult(SaveOptionResultModel model)
+        {
+            model.UserId = GetUserId();
+            await _optionService.VoteOnOption(model);
+
+            return Ok();
         }
     }
 }
