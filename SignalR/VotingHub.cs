@@ -1,4 +1,5 @@
 ﻿using Interfaces.SignalR;
+using System;
 using System.Threading.Tasks;
 
 namespace SignalR
@@ -7,9 +8,9 @@ namespace SignalR
     {
         private readonly string _receiveResult = "receiveResult";
 
-        public async Task ShareResult(string result)
+        public async Task ShareResult(Guid result)
         {
-            await BroadcastMessage(result, _receiveResult);
+            await BroadcastMessage(_receiveResult, new[] { result });
         }
     }
 }
