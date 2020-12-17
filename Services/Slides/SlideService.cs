@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DomainModels.Slides;
+using DtoModels.Slides.Filters;
 using DtoModels.Slides.Request;
 using DtoModels.Slides.Response;
 using Interfaces.Repositories;
@@ -33,9 +34,9 @@ namespace Services.Slides
             return _mapper.Map<SlideDto>(slide);
         }
 
-        public List<SlideDto> GetSlides(int presentationId)
+        public List<SlideDto> GetSlides(int presentationId, SlideFilter filter)
         {
-            var slides = _slideRepository.GetSlides(presentationId);
+            var slides = _slideRepository.GetSlides(presentationId, filter);
 
             return _mapper.Map<List<SlideDto>>(slides);
         }

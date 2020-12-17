@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.Data;
 
 namespace Repositories.Migrations
 {
     [DbContext(typeof(ShlidexperienceContext))]
-    partial class ShlidexperienceContextModelSnapshot : ModelSnapshot
+    [Migration("20201216194535_AddedOptionResultEntity")]
+    partial class AddedOptionResultEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,11 +34,9 @@ namespace Repositories.Migrations
 
                     b.HasKey("SlideId", "SlideOptionId");
 
-                    b.HasIndex("SlideOptionId")
-                        .IsUnique();
+                    b.HasIndex("SlideOptionId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("OptionResults");
                 });
@@ -72,9 +72,6 @@ namespace Repositories.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("smallint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Answered")
-                        .HasColumnType("bit");
 
                     b.Property<int>("PresentationId")
                         .HasColumnType("int");
@@ -211,15 +208,15 @@ namespace Repositories.Migrations
                         .IsRequired();
 
                     b.HasOne("Repositories.Data.SlideOptionEntity", "SlideOption")
-                        .WithOne()
-                        .HasForeignKey("Repositories.Data.OptionResultEntity", "SlideOptionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithMany()
+                        .HasForeignKey("SlideOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Repositories.Data.UserEntity", "User")
-                        .WithOne()
-                        .HasForeignKey("Repositories.Data.OptionResultEntity", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

@@ -9,6 +9,12 @@
     <Compile Remove="Migrations\20201111104143_SlideTypeMotRequired.Designer.cs" />
     <Compile Remove="Migrations\20201122103325_SlideOptionIdGuid.cs" />
     <Compile Remove="Migrations\20201122103325_SlideOptionIdGuid.Designer.cs" />
+    <Compile Remove="Migrations\20201217152415_AnsweredColumnInSlideEntity.cs" />
+    <Compile Remove="Migrations\20201217152415_AnsweredColumnInSlideEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201217153137_AnsweredColumnInSlideEntity.cs" />
+    <Compile Remove="Migrations\20201217153137_AnsweredColumnInSlideEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201217153335_AnsweredColumnInSlideEntity.cs" />
+    <Compile Remove="Migrations\20201217153335_AnsweredColumnInSlideEntity.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

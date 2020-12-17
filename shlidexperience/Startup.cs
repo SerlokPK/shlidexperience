@@ -11,6 +11,7 @@ using Newtonsoft.Json.Serialization;
 using Repositories.Data;
 using shlidexperience.helpers;
 using shlidexperience.Helpers;
+using SignalR;
 using System.Collections.Generic;
 using WebApi.Helpers;
 
@@ -38,7 +39,8 @@ namespace shlidexperience
                     .RegisterAppRepositories()
                     .AddDbContext<ShlidexperienceContext>(options =>
                                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")))
-                    .RegisterAutoMapper();
+                    .RegisterAutoMapper()
+                    .AddSignalR();
 
 
             services.AddSwaggerGen(s =>
@@ -101,6 +103,7 @@ namespace shlidexperience
                .UseEndpoints(endpoints =>
                {
                    endpoints.MapControllers();
+                   endpoints.MapHub<VotingHub>("/votinghub");
                });
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Common;
 using Common.Helpers;
 using DtoModels.Presentations.Request;
+using DtoModels.Slides.Filters;
 using DtoModels.Slides.Request;
 using Interfaces.Services;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -72,9 +73,9 @@ namespace Api.Controllers
         }
 
         [HttpGet("{presentationId}/slides")]
-        public IActionResult GetSlides([FromRoute] short presentationId)
+        public IActionResult GetSlides([FromRoute] short presentationId, [FromQuery] SlideFilter filter)
         {
-            var slides = _slideService.GetSlides(presentationId);
+            var slides = _slideService.GetSlides(presentationId, filter);
 
             return Ok(slides);
         }
