@@ -7,5 +7,7 @@ namespace DomainModels.Slides
         public Guid SlideOptionId { get; set; }
 
         public string Text { get; set; }
+
+        public int NumberOfAnswers { get; set; }
     }
 }

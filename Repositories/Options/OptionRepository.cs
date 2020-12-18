@@ -37,14 +37,17 @@ namespace Repositories.Options
                     throw new ConflictException(_optionExist);
                 }
 
-                var option = new OptionResultEntity
+                var option = context.SlideOptions.Find(optionId);
+                option.NumberOfAnswers++;
+
+                var optionResult = new OptionResultEntity
                 {
                     SlideId = slideId,
                     SlideOptionId = optionId,
                     UserId = userId
                 };
 
-                context.OptionResults.Add(option);
+                context.OptionResults.Add(optionResult);
                 context.SaveChanges();
             }
         }

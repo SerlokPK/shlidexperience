@@ -17,6 +17,9 @@ namespace Repositories.Data
         [StringLength(255)]
         public string Text { get; set; }
 
+        [Required]
+        public int NumberOfAnswers { get; set; }
+
         [ForeignKey("SlideId")]
         public virtual SlideEntity Slide { get; set; }
     }

@@ -81,13 +81,15 @@ namespace Repositories.Slides
         {
             using (var context = GetContext())
             {
-                var slides = context.Slides
+                var query = context.Slides
                                     .Include(s => s.SlideOptions)
                                     .Where(s => s.PresentationId == presentationId);
 
-                slides = ApplySlideFilter(slides, filter);
+                query = ApplySlideFilter(query, filter);
 
-                return _mapper.Map<List<Slide>>(slides);
+                var slides = _mapper.Map<List<Slide>>(query);
+                
+                return slides;
             }
         }
 
