@@ -172,7 +172,7 @@ namespace Repositories.Slides
         {
             if (filter?.ItemsToSkip != null)
             {
-                entities.Skip(filter.ItemsToSkip.Value)
+                entities = entities.Skip(filter.ItemsToSkip.Value)
                     .Take(1);
             }
 
