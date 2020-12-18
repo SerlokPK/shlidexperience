@@ -87,9 +87,7 @@ namespace Repositories.Slides
 
                 query = ApplySlideFilter(query, filter);
 
-                var slides = _mapper.Map<List<Slide>>(query);
-                
-                return slides;
+                return _mapper.Map<List<Slide>>(query);
             }
         }
 
