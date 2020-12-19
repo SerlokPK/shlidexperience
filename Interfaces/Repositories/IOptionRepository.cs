@@ -4,6 +4,6 @@ namespace Interfaces.Repositories
 {
     public interface IOptionRepository
     {
-        void SaveOptionResult(short slideId, Guid optionId, int userId);
+        void SaveOptionResult(short slideId, Guid optionId, Guid deviceId);
     }
 }

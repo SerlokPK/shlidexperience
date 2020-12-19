@@ -21,6 +21,8 @@ namespace Repositories.Data
 
         public DbSet<OptionResultEntity> OptionResults { get; set; }
 
+        public DbSet<DeviceEntity> Devices { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SlideTypeEntity>()
@@ -34,7 +36,7 @@ namespace Repositories.Data
                 .WithOne()
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<OptionResultEntity>()
-                .HasOne(o => o.User)
+                .HasOne(o => o.Device)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Restrict);
         }
