@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Helpers;
 using DomainModels.Slides;
 using DtoModels.Slides.Filters;
 using DtoModels.Slides.Request;
@@ -16,6 +17,8 @@ namespace Services.Slides
 
         public SlideService(ISlideRepository slideRepository, IMapper mapper)
         {
+            DependencyHelper.ThrowIfNull(mapper, slideRepository);
+
             _slideRepository = slideRepository;
             _mapper = mapper;
         }
@@ -24,7 +27,7 @@ namespace Services.Slides
         {
             var slide = _slideRepository.CreateSlide(presentationId);
 
-            return _mapper.Map<SlideDto>(slide); 
+            return _mapper.Map<SlideDto>(slide);
         }
 
         public SlideDto GetSlide(short slideId, int presentationId)
@@ -34,11 +37,16 @@ namespace Services.Slides
             return _mapper.Map<SlideDto>(slide);
         }
 
-        public List<SlideDto> GetSlides(int presentationId, SlideFilter filter)
+        public GetSlidesDto GetSlides(int presentationId, SlideFilter filter)
         {
             var slides = _slideRepository.GetSlides(presentationId, filter);
+            var count = _slideRepository.GetSlidesCount(presentationId);
 
-            return _mapper.Map<List<SlideDto>>(slides);
+            return new GetSlidesDto
+            {
+                Slides = _mapper.Map<List<SlideDto>>(slides),
+                Count = count
+            };
         }
 
         public List<SlideType> GetTypes()

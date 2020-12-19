@@ -1,5 +1,6 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Common;
+using Common.Helpers;
 using DomainModels.Exceptions;
 using DomainModels.Slides;
 using DtoModels.Slides.Filters;
@@ -21,6 +22,8 @@ namespace Repositories.Slides
 
         public SlideRepository(IOptions<AppSettings> config, IMapper mapper) : base(config)
         {
+            DependencyHelper.ThrowIfNull(mapper);
+
             _mapper = mapper;
         }
 
@@ -88,6 +91,14 @@ namespace Repositories.Slides
                 query = ApplySlideFilter(query, filter);
 
                 return _mapper.Map<List<Slide>>(query);
+            }
+        }
+
+        public int GetSlidesCount(int presentationId)
+        {
+            using (var context = GetContext())
+            {
+                return context.Slides.Count(s => s.PresentationId == presentationId);
             }
         }
 
