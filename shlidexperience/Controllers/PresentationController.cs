@@ -1,5 +1,4 @@
-﻿using Api.Extensions;
-using Common;
+﻿using Common;
 using Common.Helpers;
 using DtoModels.Presentations.Request;
 using DtoModels.Slides.Filters;
@@ -77,9 +76,8 @@ namespace Api.Controllers
         public IActionResult GetSlides([FromRoute] short presentationId, [FromQuery] SlideFilter filter)
         {
             var getSlidesModel = _slideService.GetSlides(presentationId, filter);
-            Response.Headers.AddTotalCount(getSlidesModel.Count);
 
-            return Ok(getSlidesModel.Slides);
+            return Ok(getSlidesModel);
         }
 
         [HttpGet("{presentationId}/slides/{slideId}")]
