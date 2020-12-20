@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Helpers;
 using DomainModels.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -18,6 +19,8 @@ namespace WebApi.Helpers
 
         public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
         {
+            DependencyHelper.ThrowIfNull(next, appSettings);
+
             _next = next;
             _appSettings = appSettings.Value;
         }

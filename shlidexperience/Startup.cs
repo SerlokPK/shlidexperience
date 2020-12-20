@@ -1,3 +1,4 @@
+using Api.Middlewares;
 using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -100,6 +101,7 @@ namespace shlidexperience
                .UseAuthentication()
                .UseAuthorization()
                .UseMiddleware<JwtMiddleware>()
+               .UseMiddleware<DeviceMiddleware>()
                .UseEndpoints(endpoints =>
                {
                    endpoints.MapControllers();

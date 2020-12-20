@@ -8,11 +8,11 @@ namespace Repositories.Data
     {
         public Guid Id { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
+
+        public DateTime Created { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public UserEntity User { get; set; }
-
-        public DateTime Created { get; set; }
     }
 }
