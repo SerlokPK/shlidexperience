@@ -1,5 +1,6 @@
 ﻿using Api.Extensions;
 using Common.Helpers;
+using DomainModels.Exceptions;
 using Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
@@ -10,27 +11,25 @@ namespace Api.Middlewares
     public class DeviceMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IAccountService _accountService;
 
-        public DeviceMiddleware(RequestDelegate next, IAccountService accountService)
+        public DeviceMiddleware(RequestDelegate next)
         {
-            DependencyHelper.ThrowIfNull(next, accountService);
+            DependencyHelper.ThrowIfNull(next);
 
             _next = next;
-            _accountService = accountService;
         }
 
-        public async Task Invoke(HttpContext context)
+        public Task Invoke(HttpContext context, IAccountService accountService)
         {
             var deviceId = context.Request.Headers["DeviceId"].FirstOrDefault();
 
             if (deviceId != null)
             {
                 var userId = context.Request.Headers.GetUserId();
-                _accountService.SaveDevice(deviceId, userId);
+                accountService.SaveDevice(deviceId, userId);
             }
 
-            await _next(context);
+            throw new NotFoundException("Device id is required!");
         }
     }
 }

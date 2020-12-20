@@ -1,5 +1,4 @@
-﻿using Api.Constants;
-using Api.Extensions;
+﻿using Api.Extensions;
 using Common;
 using Common.Helpers;
 using DomainModels.Exceptions;
@@ -11,8 +10,6 @@ namespace shlidexperience.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        
-
         internal readonly AppSettings _appSettings;
 
         public BaseController(IOptions<AppSettings> options)
@@ -24,14 +21,11 @@ namespace shlidexperience.Controllers
 
         protected int GetUserId()
         {
-            if(Request.Headers.ContainsKey(HeaderConstants.Authorization))
-            {
-                var userId = Request.Headers.GetUserId();
+            var userId = Request.Headers.GetUserId();
 
-                if(userId.HasValue)
-                {
-                    return userId.Value;
-                }
+            if (userId.HasValue)
+            {
+                return userId.Value;
             }
 
             throw new UnauthorizedException("User not logged in!");

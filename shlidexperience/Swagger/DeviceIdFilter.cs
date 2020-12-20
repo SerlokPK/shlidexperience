@@ -15,7 +15,7 @@ namespace Api.Swagger
 
             operation.Parameters.Add(new OpenApiParameter
             {
-                Name = "DeviceFilterId",
+                Name = "DeviceId",
                 In = ParameterLocation.Header,
                 Required = true,
             });
