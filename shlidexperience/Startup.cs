@@ -1,4 +1,5 @@
 using Api.Middlewares;
+using Api.Swagger;
 using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -75,6 +76,7 @@ namespace shlidexperience
                       new List<string>()
                     }
                 });
+                s.OperationFilter<DeviceIdFilter>();
             });
         }
 

@@ -80,7 +80,7 @@ namespace Services.Account
 
         public void SaveDevice(string deviceId, int? userId)
         {
-            throw new System.NotImplementedException();
+            _accountsRepository.SaveDevice(deviceId, userId);
         }
     }
 }
