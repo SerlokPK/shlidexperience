@@ -160,6 +160,7 @@ namespace Repositories.Account
                 {
                     var entity = new DeviceEntity
                     {
+                        Id = guidDevice,
                         UserId = userId,
                         Created = DateTime.Now
                     };

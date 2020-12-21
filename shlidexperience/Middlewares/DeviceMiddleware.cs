@@ -19,7 +19,7 @@ namespace Api.Middlewares
             _next = next;
         }
 
-        public Task Invoke(HttpContext context, IAccountService accountService)
+        public async Task Invoke(HttpContext context, IAccountService accountService)
         {
             var deviceId = context.Request.Headers["DeviceId"].FirstOrDefault();
 
@@ -29,7 +29,7 @@ namespace Api.Middlewares
                 accountService.SaveDevice(deviceId, userId);
             }
 
-            throw new NotFoundException("Device id is required!");
+            await _next(context);
         }
     }
 }
