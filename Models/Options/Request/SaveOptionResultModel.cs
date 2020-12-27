@@ -11,6 +11,6 @@ namespace DtoModels.Options.Request
         [Required]
         public Guid OptionId { get; set; }
 
-        public int UserId { get; set; }
+        public Guid DeviceId { get; set; }
     }
 }

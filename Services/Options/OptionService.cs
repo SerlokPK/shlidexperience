@@ -26,8 +26,7 @@ namespace Services.Options
 
         public async Task VoteOnOption(SaveOptionResultModel model)
         {
-            //TODO change
-            _optionRepository.SaveOptionResult(model.SlideId, model.OptionId, new Guid());
+            _optionRepository.SaveOptionResult(model.SlideId, model.OptionId, model.DeviceId);
             await _votingHub.ShareResult(model.OptionId);
         }
     }
