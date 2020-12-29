@@ -4,7 +4,6 @@ using DtoModels.Options.Request;
 using Interfaces.Repositories;
 using Interfaces.Services;
 using Interfaces.SignalR;
-using System;
 using System.Threading.Tasks;
 
 namespace Services.Options

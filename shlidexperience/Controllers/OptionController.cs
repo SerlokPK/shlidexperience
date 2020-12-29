@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 namespace Api.Controllers
 {
     [Route("api/options")]
-    [Authorize]
     public class OptionController : BaseController
     {
         private readonly IOptionService _optionService;

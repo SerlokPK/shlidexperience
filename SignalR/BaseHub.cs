@@ -19,7 +19,7 @@ namespace SignalR
 
         public async Task BroadcastMessage(string methodName, params object[] parameters)
         {
-            await _context.Clients.All.SendAsync(methodName, parameters);
+            await Clients.All.SendAsync(methodName, parameters);
         }
 
         public async Task SendToCaller(string methodName, params object[] parameters)
