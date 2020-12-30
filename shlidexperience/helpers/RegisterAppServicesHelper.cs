@@ -27,7 +27,7 @@ namespace shlidexperience.helpers
             services.AddScoped<IPresentationService, PresentationService>();
             services.AddScoped<ISlideService, SlideService>();
             services.AddScoped<IOptionService, OptionService>();
-            services.AddScoped<IVotingHubClient, VotingHub>();
+            services.AddTransient<IVotingHubClient, VotingHub>();
 
             return services;
         }

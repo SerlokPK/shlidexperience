@@ -1,5 +1,4 @@
-﻿using Common.Helpers;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Threading.Tasks;
 
@@ -8,14 +7,6 @@ namespace SignalR
     public class BaseHub : Hub
     {
         private readonly string _defaultGroupName = "HubUsers";
-        protected IHubContext<BaseHub> _context;
-
-        public BaseHub(IHubContext<BaseHub> context)
-        {
-            DependencyHelper.ThrowIfNull(context);
-
-            _context = context;
-        }
 
         public async Task BroadcastMessage(string methodName, params object[] parameters)
         {

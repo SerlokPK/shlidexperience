@@ -1,6 +1,5 @@
 ﻿using Api.Extensions;
 using Common.Helpers;
-using DomainModels.Exceptions;
 using Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
