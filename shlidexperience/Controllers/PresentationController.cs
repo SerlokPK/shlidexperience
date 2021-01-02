@@ -85,7 +85,8 @@ namespace Api.Controllers
         [AllowAnonymous]
         public IActionResult GetSlide([FromRoute] short slideId, [FromRoute] int presentationId)
         {
-            var slide = _slideService.GetSlide(slideId, presentationId);
+            var deviceId = GetDeviceId();
+            var slide = _slideService.GetSlide(slideId, presentationId, deviceId);
 
             return Ok(slide);
         }

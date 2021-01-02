@@ -8,6 +8,7 @@ using Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Repositories.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -64,7 +65,7 @@ namespace Repositories.Slides
             }
         }
 
-        public Slide GetSlide(short slideId, int presentationId)
+        public Slide GetSlide(short slideId, int presentationId, Guid deviceId)
         {
             using (var context = GetContext())
             {
@@ -76,7 +77,10 @@ namespace Repositories.Slides
                     throw new NotFoundException(_slideDoesNotExist);
                 }
 
-                return _mapper.Map<Slide>(slide);
+                var slideDto = _mapper.Map<Slide>(slide);
+                slideDto.HasAnswered = context.OptionResults.Any(r => r.SlideId == slideId && r.DeviceId == deviceId);
+
+                return slideDto;
             }
         }
 

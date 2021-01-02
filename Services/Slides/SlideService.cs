@@ -6,6 +6,7 @@ using DtoModels.Slides.Request;
 using DtoModels.Slides.Response;
 using Interfaces.Repositories;
 using Interfaces.Services;
+using System;
 using System.Collections.Generic;
 
 namespace Services.Slides
@@ -30,9 +31,9 @@ namespace Services.Slides
             return _mapper.Map<SlideDto>(slide);
         }
 
-        public SlideDto GetSlide(short slideId, int presentationId)
+        public SlideDto GetSlide(short slideId, int presentationId, Guid deviceId)
         {
-            var slide = _slideRepository.GetSlide(slideId, presentationId);
+            var slide = _slideRepository.GetSlide(slideId, presentationId, deviceId);
 
             return _mapper.Map<SlideDto>(slide);
         }

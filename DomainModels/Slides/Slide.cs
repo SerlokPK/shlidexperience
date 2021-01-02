@@ -10,6 +10,8 @@ namespace DomainModels.Slides
 
         public string Question { get; set; }
 
+        public bool HasAnswered { get; set; }
+
         public ICollection<SlideOption> SlideOptions { get; set; } = new List<SlideOption>();
     }
 }
