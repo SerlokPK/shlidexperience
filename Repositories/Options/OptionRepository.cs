@@ -28,7 +28,7 @@ namespace Repositories.Options
         {
             using (var context = GetContext())
             {
-                if (context.Slides.Any(s => s.SlideId == slideId))
+                if (!context.Slides.Any(s => s.SlideId == slideId))
                 {
                     throw new NotFoundException(_slideDoesNotExist);
                 }

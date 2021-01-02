@@ -24,6 +24,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveOptionResult(SaveOptionResultModel model)
         {
+            model.DeviceId = GetDeviceId();
             await _optionService.VoteOnOption(model);
 
             return Ok();

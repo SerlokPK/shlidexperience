@@ -4,6 +4,7 @@ using Common.Helpers;
 using DomainModels.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace shlidexperience.Controllers
 {
@@ -29,6 +30,18 @@ namespace shlidexperience.Controllers
             }
 
             throw new UnauthorizedException("User not logged in!");
+        }
+
+        protected Guid GetDeviceId()
+        {
+            var deviceId = Request.Headers.GetDeviceId();
+
+            if (deviceId.HasValue)
+            {
+                return deviceId.Value;
+            }
+
+            throw new UnauthorizedException("There was an error, please reload page!");
         }
     }
 }
