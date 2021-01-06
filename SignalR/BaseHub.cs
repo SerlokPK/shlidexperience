@@ -8,22 +8,22 @@ namespace SignalR
     {
         private readonly string _defaultGroupName = "HubUsers";
 
-        public async Task BroadcastMessage(string methodName, params object[] parameters)
+        public async Task BroadcastMessage(string methodName, object[] parameters)
         {
             await Clients.All.SendAsync(methodName, parameters);
         }
 
-        public async Task SendToCaller(string methodName, params object[] parameters)
+        public async Task SendToCaller(string methodName, object[] parameters)
         {
             await Clients.Caller.SendAsync(methodName, parameters);
         }
 
-        public async Task SendToOthers(string methodName, params object[] parameters)
+        public async Task SendToOthers(string methodName, object[] parameters)
         {
             await Clients.Others.SendAsync(methodName, parameters);
         }
 
-        public async Task SendToGroup(string groupName, string methodName, params object[] parameters)
+        public async Task SendToGroup(string groupName, string methodName, object[] parameters)
         {
             await Clients.Group(groupName).SendAsync(methodName, parameters);
         }
