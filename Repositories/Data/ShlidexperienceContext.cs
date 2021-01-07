@@ -33,11 +33,7 @@ namespace Repositories.Data
                 .HasKey(c => new { c.SlideId, c.SlideOptionId });
             modelBuilder.Entity<OptionResultEntity>()
                 .HasOne(o => o.SlideOption)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<OptionResultEntity>()
-                .HasOne(o => o.Device)
-                .WithOne()
+                .WithMany(x => x.OptionResults)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
