@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.Data;
 
 namespace Repositories.Migrations
 {
     [DbContext(typeof(ShlidexperienceContext))]
-    partial class ShlidexperienceContextModelSnapshot : ModelSnapshot
+    [Migration("20201219165918_AddedDeviceEntity")]
+    partial class AddedDeviceEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +30,7 @@ namespace Repositories.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -46,14 +48,16 @@ namespace Repositories.Migrations
                     b.Property<Guid>("SlideOptionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DeviceId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasKey("SlideId", "SlideOptionId", "DeviceId");
+                    b.HasKey("SlideId", "SlideOptionId");
 
-                    b.HasIndex("DeviceId");
+                    b.HasIndex("SlideOptionId")
+                        .IsUnique();
 
-                    b.HasIndex("SlideOptionId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("OptionResults");
                 });
@@ -226,17 +230,13 @@ namespace Repositories.Migrations
                 {
                     b.HasOne("Repositories.Data.UserEntity", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Repositories.Data.OptionResultEntity", b =>
                 {
-                    b.HasOne("Repositories.Data.DeviceEntity", "Device")
-                        .WithMany()
-                        .HasForeignKey("DeviceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Repositories.Data.SlideEntity", "Slide")
                         .WithMany()
                         .HasForeignKey("SlideId")
@@ -244,8 +244,14 @@ namespace Repositories.Migrations
                         .IsRequired();
 
                     b.HasOne("Repositories.Data.SlideOptionEntity", "SlideOption")
-                        .WithMany("OptionResults")
-                        .HasForeignKey("SlideOptionId")
+                        .WithOne()
+                        .HasForeignKey("Repositories.Data.OptionResultEntity", "SlideOptionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Repositories.Data.UserEntity", "User")
+                        .WithOne()
+                        .HasForeignKey("Repositories.Data.OptionResultEntity", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

@@ -21,6 +21,8 @@ namespace Repositories.Data
 
         public DbSet<OptionResultEntity> OptionResults { get; set; }
 
+        public DbSet<DeviceEntity> Devices { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SlideTypeEntity>()
@@ -28,14 +30,10 @@ namespace Repositories.Data
                                  new SlideTypeEntity { SlideTypeId = 2, Type = SlideType.ReactionQuestion });
 
             modelBuilder.Entity<OptionResultEntity>()
-                .HasKey(c => new { c.SlideId, c.SlideOptionId });
+                .HasKey(c => new { c.SlideId, c.SlideOptionId, c.DeviceId });
             modelBuilder.Entity<OptionResultEntity>()
                 .HasOne(o => o.SlideOption)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<OptionResultEntity>()
-                .HasOne(o => o.User)
-                .WithOne()
+                .WithMany(x => x.OptionResults)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

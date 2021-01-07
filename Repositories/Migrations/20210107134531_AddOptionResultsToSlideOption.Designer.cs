@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.Data;
 
 namespace Repositories.Migrations
 {
     [DbContext(typeof(ShlidexperienceContext))]
-    partial class ShlidexperienceContextModelSnapshot : ModelSnapshot
+    [Migration("20210107134531_AddOptionResultsToSlideOption")]
+    partial class AddOptionResultsToSlideOption
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Repositories.Migrations
                     b.Property<Guid>("DeviceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("SlideId", "SlideOptionId", "DeviceId");
+                    b.HasKey("SlideId", "SlideOptionId");
 
                     b.HasIndex("DeviceId");
 

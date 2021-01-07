@@ -24,15 +24,15 @@ namespace Repositories.Options
             _mapper = mapper;
         }
 
-        public void SaveOptionResult(short slideId, Guid optionId, int userId)
+        public void SaveOptionResult(short slideId, Guid optionId, Guid deviceId)
         {
             using (var context = GetContext())
             {
-                if (context.Slides.Any(s => s.SlideId == slideId))
+                if (!context.Slides.Any(s => s.SlideId == slideId))
                 {
                     throw new NotFoundException(_slideDoesNotExist);
                 }
-                if (context.OptionResults.Any(o => o.SlideId == slideId && o.UserId == userId))
+                if (context.OptionResults.Any(o => o.SlideId == slideId && o.DeviceId == deviceId))
                 {
                     throw new ConflictException(_optionExist);
                 }
@@ -44,7 +44,7 @@ namespace Repositories.Options
                 {
                     SlideId = slideId,
                     SlideOptionId = optionId,
-                    UserId = userId
+                    DeviceId = deviceId
                 };
 
                 context.OptionResults.Add(optionResult);

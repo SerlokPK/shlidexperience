@@ -4,6 +4,7 @@ using DtoModels.Presentations.Request;
 using DtoModels.Slides.Filters;
 using DtoModels.Slides.Request;
 using Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -75,15 +76,17 @@ namespace Api.Controllers
         [HttpGet("{presentationId}/slides")]
         public IActionResult GetSlides([FromRoute] short presentationId, [FromQuery] SlideFilter filter)
         {
-            var slides = _slideService.GetSlides(presentationId, filter);
+            var getSlidesModel = _slideService.GetSlides(presentationId, filter);
 
-            return Ok(slides);
+            return Ok(getSlidesModel);
         }
 
         [HttpGet("{presentationId}/slides/{slideId}")]
+        [AllowAnonymous]
         public IActionResult GetSlide([FromRoute] short slideId, [FromRoute] int presentationId)
         {
-            var slide = _slideService.GetSlide(slideId, presentationId);
+            var deviceId = GetDeviceId();
+            var slide = _slideService.GetSlide(slideId, presentationId, deviceId);
 
             return Ok(slide);
         }

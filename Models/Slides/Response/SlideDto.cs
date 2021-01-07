@@ -13,6 +13,8 @@ namespace DtoModels.Slides.Response
 
         public string Question { get; set; }
 
+        public bool HasAnswered { get; set; }
+
         public ICollection<SlideOptionDto> SlideOptions { get; set; } = new List<SlideOptionDto>();
     }
 }

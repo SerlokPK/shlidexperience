@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,5 +23,7 @@ namespace Repositories.Data
 
         [ForeignKey("SlideId")]
         public virtual SlideEntity Slide { get; set; }
+
+        public virtual ICollection<OptionResultEntity> OptionResults { get; set; }
     }
 }

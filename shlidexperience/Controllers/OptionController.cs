@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 namespace Api.Controllers
 {
     [Route("api/options")]
-    [Authorize]
     public class OptionController : BaseController
     {
         private readonly IOptionService _optionService;
@@ -25,7 +24,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveOptionResult(SaveOptionResultModel model)
         {
-            model.UserId = GetUserId();
+            model.DeviceId = GetDeviceId();
             await _optionService.VoteOnOption(model);
 
             return Ok();

@@ -1,16 +1,16 @@
-﻿using Common;
+﻿using Api.Extensions;
+using Common;
 using Common.Helpers;
+using DomainModels.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System.Linq;
+using System;
 
 namespace shlidexperience.Controllers
 {
     [ApiController]
     public class BaseController : ControllerBase
     {
-        private const string _authorization = "Authorization";
-
         internal readonly AppSettings _appSettings;
 
         public BaseController(IOptions<AppSettings> options)
@@ -22,18 +22,26 @@ namespace shlidexperience.Controllers
 
         protected int GetUserId()
         {
-            if(Request.Headers.ContainsKey(_authorization))
-            {
-                var token = Request.Headers.First(x => x.Key == _authorization).Value;
-                var id = JwtTokenHelper.GetIdClaim(token);
+            var userId = Request.Headers.GetUserId();
 
-                if (!string.IsNullOrEmpty(id))
-                {
-                    return int.Parse(id);
-                }
+            if (userId.HasValue)
+            {
+                return userId.Value;
             }
 
-            throw new System.Exception("User not logged in!");
+            throw new UnauthorizedException("User not logged in!");
+        }
+
+        protected Guid GetDeviceId()
+        {
+            var deviceId = Request.Headers.GetDeviceId();
+
+            if (deviceId.HasValue)
+            {
+                return deviceId.Value;
+            }
+
+            throw new UnauthorizedException("There was an error, please reload page!");
         }
     }
 }

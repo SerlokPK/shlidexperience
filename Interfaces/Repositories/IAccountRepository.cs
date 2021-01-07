@@ -8,5 +8,6 @@ namespace Interfaces.Repositories
         User Register(string email, string firstName, string lastName, string password);
         UserReset ForgotPassword(string email);
         UserReset ResetPassword(string password, string resetKey);
+        void SaveDevice(string deviceId, int? userId);
     }
 }

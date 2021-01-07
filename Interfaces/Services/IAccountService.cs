@@ -10,5 +10,6 @@ namespace Interfaces.Services
         UserDto Register(RegisterModel model);
         void ForgotPassword(string email);
         void ResetPassword(ResetPasswordModel model);
+        void SaveDevice(string deviceId, int? userId);
     }
 }

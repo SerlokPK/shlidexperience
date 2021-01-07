@@ -77,5 +77,10 @@ namespace Services.Account
                 _mailService.ResetPasswordDoneMail(Language.DefaultSign, user.Email, user.FullName, link);
             }
         }
+
+        public void SaveDevice(string deviceId, int? userId)
+        {
+            _accountsRepository.SaveDevice(deviceId, userId);
+        }
     }
 }

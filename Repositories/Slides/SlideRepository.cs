@@ -1,5 +1,6 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Common;
+using Common.Helpers;
 using DomainModels.Exceptions;
 using DomainModels.Slides;
 using DtoModels.Slides.Filters;
@@ -7,6 +8,7 @@ using Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Repositories.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,6 +23,8 @@ namespace Repositories.Slides
 
         public SlideRepository(IOptions<AppSettings> config, IMapper mapper) : base(config)
         {
+            DependencyHelper.ThrowIfNull(mapper);
+
             _mapper = mapper;
         }
 
@@ -61,7 +65,7 @@ namespace Repositories.Slides
             }
         }
 
-        public Slide GetSlide(short slideId, int presentationId)
+        public Slide GetSlide(short slideId, int presentationId, Guid deviceId)
         {
             using (var context = GetContext())
             {
@@ -73,7 +77,10 @@ namespace Repositories.Slides
                     throw new NotFoundException(_slideDoesNotExist);
                 }
 
-                return _mapper.Map<Slide>(slide);
+                var slideDto = _mapper.Map<Slide>(slide);
+                slideDto.HasAnswered = context.OptionResults.Any(r => r.SlideId == slideId && r.DeviceId == deviceId);
+
+                return slideDto;
             }
         }
 
@@ -87,9 +94,15 @@ namespace Repositories.Slides
 
                 query = ApplySlideFilter(query, filter);
 
-                var slides = _mapper.Map<List<Slide>>(query);
-                
-                return slides;
+                return _mapper.Map<List<Slide>>(query);
+            }
+        }
+
+        public int GetSlidesCount(int presentationId)
+        {
+            using (var context = GetContext())
+            {
+                return context.Slides.Count(s => s.PresentationId == presentationId);
             }
         }
 
@@ -174,7 +187,7 @@ namespace Repositories.Slides
         {
             if (filter?.ItemsToSkip != null)
             {
-                entities.Skip(filter.ItemsToSkip.Value)
+                entities = entities.Skip(filter.ItemsToSkip.Value)
                     .Take(1);
             }
 

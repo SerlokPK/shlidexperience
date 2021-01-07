@@ -3,8 +3,7 @@ using Common.Helpers;
 using DtoModels.Options.Request;
 using Interfaces.Repositories;
 using Interfaces.Services;
-using Interfaces.SignalR;
-using System;
+using SignalR;
 using System.Threading.Tasks;
 
 namespace Services.Options
@@ -14,20 +13,26 @@ namespace Services.Options
         private readonly IMapper _mapper;
         private readonly IOptionRepository _optionRepository;
         private readonly IVotingHubClient _votingHub;
-
-        public OptionService(IMapper mapper, IOptionRepository optionRepository, IVotingHubClient votingHubClient)
+        private readonly IVotingService _votingService;
+        
+        public OptionService(
+            IMapper mapper, 
+            IOptionRepository optionRepository, 
+            IVotingHubClient votingHubClient,
+            IVotingService votingService)
         {
-            DependencyHelper.ThrowIfNull(mapper, optionRepository, votingHubClient);
+            DependencyHelper.ThrowIfNull(mapper, optionRepository, votingHubClient, votingService);
 
             _mapper = mapper;
             _optionRepository = optionRepository;
             _votingHub = votingHubClient;
+            _votingService = votingService;
         }
 
         public async Task VoteOnOption(SaveOptionResultModel model)
         {
-            _optionRepository.SaveOptionResult(model.SlideId, model.OptionId, model.UserId);
-            await _votingHub.ShareResult(model.OptionId);
+            _optionRepository.SaveOptionResult(model.SlideId, model.OptionId, model.DeviceId);
+            await _votingService.ShareResult(model.OptionId);
         }
     }
 }

@@ -1,3 +1,5 @@
+using Api.Middlewares;
+using Api.Swagger;
 using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json.Serialization;
 using Repositories.Data;
 using shlidexperience.helpers;
 using shlidexperience.Helpers;
@@ -74,6 +75,7 @@ namespace shlidexperience
                       new List<string>()
                     }
                 });
+                s.OperationFilter<DeviceIdFilter>();
             });
         }
 
@@ -100,6 +102,7 @@ namespace shlidexperience
                .UseAuthentication()
                .UseAuthorization()
                .UseMiddleware<JwtMiddleware>()
+               .UseMiddleware<DeviceMiddleware>()
                .UseEndpoints(endpoints =>
                {
                    endpoints.MapControllers();

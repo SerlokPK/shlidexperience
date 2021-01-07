@@ -10,13 +10,12 @@ namespace Repositories.Data
 
         public Guid SlideOptionId { get; set; }
 
-        public int UserId { get; set; }
+        public Guid DeviceId { get; set; }
         
         public SlideEntity Slide { get; set; }
 
         public SlideOptionEntity SlideOption { get; set; }
 
-        [ForeignKey(nameof(UserId))]
-        public UserEntity User { get; set; }
+        public DeviceEntity Device { get; set; }
     }
 }

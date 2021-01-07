@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Interfaces.SignalR
+namespace SignalR
 {
-    public interface IVotingHubClient
+    public interface IVotingService
     {
         Task ShareResult(Guid optionId);
     }

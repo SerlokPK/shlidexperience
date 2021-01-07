@@ -1,16 +1,12 @@
-﻿using Interfaces.SignalR;
-using System;
-using System.Threading.Tasks;
-
-namespace SignalR
+﻿namespace SignalR
 {
     public class VotingHub : BaseHub, IVotingHubClient
     {
-        private readonly string _receiveResult = "receiveResult";
+        private const string _changeSlide = "changeSlide";
 
-        public async Task ShareResult(Guid result)
+        public async void ChangeSlide(short slideId)
         {
-            await BroadcastMessage(_receiveResult, new[] { result });
+            await BroadcastMessage(_changeSlide, new object[] { slideId });
         }
     }
 }

@@ -6,8 +6,10 @@ using DomainModels.Users;
 using Interfaces.Repositories;
 using Microsoft.Extensions.Options;
 using Repositories.Constants;
+using Repositories.Data;
 using Repositories.Helpers;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Repositories.Account
@@ -138,6 +140,34 @@ namespace Repositories.Account
                 }
 
                 return null;
+            }
+        }
+
+        public void SaveDevice(string deviceId, int? userId)
+        {
+            using (var context = GetContext())
+            {
+                var guidDevice = new Guid(deviceId);
+                var device = context.Devices.Find(guidDevice);
+
+                if(device != null)
+                {
+                    if(device.UserId != userId)
+                    {
+                        device.UserId = userId;
+                    }
+                }else
+                {
+                    var entity = new DeviceEntity
+                    {
+                        Id = guidDevice,
+                        UserId = userId,
+                        Created = DateTime.Now
+                    };
+                    context.Devices.Add(entity);
+                }
+
+                context.SaveChanges();
             }
         }
 
