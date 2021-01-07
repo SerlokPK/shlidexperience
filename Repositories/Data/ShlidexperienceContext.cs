@@ -30,7 +30,7 @@ namespace Repositories.Data
                                  new SlideTypeEntity { SlideTypeId = 2, Type = SlideType.ReactionQuestion });
 
             modelBuilder.Entity<OptionResultEntity>()
-                .HasKey(c => new { c.SlideId, c.SlideOptionId });
+                .HasKey(c => new { c.SlideId, c.SlideOptionId, c.DeviceId });
             modelBuilder.Entity<OptionResultEntity>()
                 .HasOne(o => o.SlideOption)
                 .WithMany(x => x.OptionResults)

@@ -16,7 +16,6 @@ namespace Repositories.Data
 
         public SlideOptionEntity SlideOption { get; set; }
 
-        [ForeignKey(nameof(DeviceId))]
         public DeviceEntity Device { get; set; }
     }
 }
