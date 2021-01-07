@@ -47,15 +47,8 @@ namespace Repositories.Options
                     DeviceId = deviceId
                 };
 
-                try
-                {
-                    context.OptionResults.Add(optionResult);
-                    context.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                context.OptionResults.Add(optionResult);
+                context.SaveChanges();
             }
         }
     }
