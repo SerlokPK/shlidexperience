@@ -35,6 +35,9 @@ namespace Repositories.Data
                 .HasOne(o => o.SlideOption)
                 .WithMany(x => x.OptionResults)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<SlideOptionEntity>()
+                .Property(x => x.SlideOptionId)
+                .ValueGeneratedNever();
         }
     }
 }
