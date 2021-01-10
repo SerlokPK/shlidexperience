@@ -166,6 +166,7 @@ namespace Repositories.Slides
                 {
                     slideOptionEntities.Add(new SlideOptionEntity
                     {
+                        SlideOptionId = Guid.NewGuid(),
                         Text = option.Text
                     });
                 }
