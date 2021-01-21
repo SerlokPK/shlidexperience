@@ -71,6 +71,22 @@ namespace Repositories.Presentations
             }
         }
 
+        public void RemovePresentation(int userId, int presentationId)
+        {
+            using (var context = GetContext())
+            {
+                var presentation = context.Presentations
+                                          .SingleOrDefault(p => p.PresentationId == presentationId && p.UserId == userId);
+                if (presentation == null)
+                {
+                    throw new NotFoundException(_presentationDoesNotExist);
+                }
+
+                context.Presentations.Remove(presentation);
+                context.SaveChanges();
+            }
+        }
+
         public void UpdatePresentation(int userId, int presentationId, string name)
         {
             using (var context = GetContext())

@@ -40,6 +40,11 @@ namespace Services.Presentations
             return _mapper.Map<List<PresentationViewDto>>(presentations);
         }
 
+        public void RemovePresentation(int userId, int presentationId)
+        {
+            _presentationRepository.RemovePresentation(userId, presentationId);
+        }
+
         public void UpdatePresentation(int userId, EditPresentationModel model)
         {
             _presentationRepository.UpdatePresentation(userId, model.PresentationId, model.Name);
