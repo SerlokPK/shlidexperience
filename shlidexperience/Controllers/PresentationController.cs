@@ -65,6 +65,15 @@ namespace Api.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{presentationId}")]
+        public IActionResult Delete([FromRoute] int presentationId)
+        {
+            var userId = GetUserId();
+            _presentationService.RemovePresentation(userId, presentationId);
+
+            return NoContent();
+        }
+
         [HttpPost("{presentationId}/slides")]
         public IActionResult CreateSlide([FromRoute] int presentationId)
         {
